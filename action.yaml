@@ -1,0 +1,64 @@
+# Copyright 2023 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     https://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+name: Scan code with HLint
+description: Scan Haskell code for possible improvements using HLint.
+
+inputs:
+  binary:
+    description: Path to the hlint binary.
+    required: false
+    default: hlint
+  args:
+    description: An array of extra arguments to pass to HLint.
+    required: false
+    default: null
+  path:
+    description: Path or array of paths that HLint will be told to scan.
+    required: false
+    default: .
+  sarif_file:
+    description: The name of the SARIF file to write and upload to GitHub code scanning.
+    required: false
+    default: hlint.sarif
+  category:
+    description: String used by GitHub code scanning for matching the analyses.
+    required: false
+    default: null
+
+outputs:
+  sarif-id:
+    description: The ID of the uploaded SARIF file.
+    value: ${{ steps.upload-sarif.outputs.sarif-id }}
+
+runs:
+  using: 'composite'
+
+  steps:
+
+    - name: Run HLint
+      run: "$BINARY" --no-exit-code --sarif "${ARGS}" "${PATHS}" >> "${SARIF_FILE}"
+      shell: bash
+      env:
+        ARGS: ${{ join(inputs.args, ' ') }}
+        BINARY: ${{ inputs.hlint-bin }}
+        PATHS: ${{ join(inputs.path, ' ') }}
+        SARIF_FILE: ${{ inputs.sarif_file }}
+
+    - id: upload-sarif
+      name: Upload SARIF file
+      uses: github/codeql-action/upload-sarif@v2
+      with:
+        sarif_file: ${{ inputs.sarif_file }}
+        category: ${{ inputs.category }}
