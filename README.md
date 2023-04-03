@@ -61,9 +61,12 @@ You only need to set them if the defaults do not work for your situation.
 This does not fail the workflow when HLint finds any code which could be improved.
 In other words, this action is not intended to be used as a status check.
 Instead, its goal is to file [GitHub code scanning] alerts.
-
 To use HLint for status checks, e.g., during pushes or pull requests,
 see [haskell/actions/hlint-run] instead.
+
+This action has not hardened security with its inputs yet.
+Do *not* use this action in a situation where uncontrolled input can be passed to it.
+E.g., another action which would pass its input to this one.
 
 ## Code of conduct
 
