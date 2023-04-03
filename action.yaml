@@ -52,7 +52,7 @@ runs:
       shell: bash
       env:
         ARGS: ${{ join(inputs.args, ' ') }}
-        BINARY: ${{ inputs.hlint-bin }}
+        BINARY: ${{ inputs.binary }}
         PATHS: ${{ join(inputs.path, ' ') }}
         SARIF_FILE: ${{ inputs.sarif_file }}
 
