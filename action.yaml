@@ -48,7 +48,7 @@ runs:
   steps:
 
     - name: Run HLint
-      run: "$BINARY" --no-exit-code --sarif "${ARGS}" "${PATHS}" >> "${SARIF_FILE}"
+      run: $BINARY --no-exit-code --sarif ${ARGS} ${PATHS} >> ${SARIF_FILE}
       shell: bash
       env:
         ARGS: ${{ join(inputs.args, ' ') }}
