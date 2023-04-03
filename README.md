@@ -28,7 +28,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: haskell/actions/hlint-setup@v2
-      - uses: chungyc/hlint-scan@v1
+      - uses: chungyc/hlint-scan@v0
 ```
 
 ### Inputs
