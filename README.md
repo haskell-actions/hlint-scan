@@ -8,6 +8,7 @@ This can be taken care of by [haskell/actions/hlint-setup].
 
 **Warning**: This depends on unreleased versions of HLint,
 and the location of this action will likely change in the future.
+Neither has the action itself been officially released.
 
 ## Usage
 
@@ -28,7 +29,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: haskell/actions/hlint-setup@v2
-      - uses: chungyc/hlint-scan@v0
+      - uses: chungyc/hlint-scan@main
 ```
 
 ### Inputs
