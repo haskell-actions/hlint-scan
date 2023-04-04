@@ -37,7 +37,7 @@ jobs:
 None of the inputs are required.
 You only need to set them if the defaults do not work for your situation.
 
-`hlint-bin`
+`binary`
 :   Path to the hlint binary.
 
 `path`
