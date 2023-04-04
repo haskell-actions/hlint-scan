@@ -40,14 +40,8 @@ You only need to set them if the defaults do not work for your situation.
 `hlint-bin`
 :   Path to the hlint binary.
 
-`args`
-:   Extra arguments to pass to HLint.
-
 `path`
-:   Path or array of paths that HLint will be told to scan.
-
-`sarif_file`
-:   The name of the SARIF file to write and upload to GitHub code scanning.
+:   Path of file or directory that HLint will be told to scan.
 
 `category`
 :   String used by GitHub code scanning for matching the analyses.
@@ -64,10 +58,6 @@ In other words, this action is not intended to be used as a status check.
 Instead, its goal is to file [GitHub code scanning] alerts.
 To use HLint for status checks, e.g., during pushes or pull requests,
 see [haskell/actions/hlint-run] instead.
-
-This action has not hardened security with its inputs yet.
-Do *not* use this action in a situation where uncontrolled input can be passed to it.
-E.g., another action which would pass its input to this one.
 
 ## Code of conduct
 
