@@ -54,3 +54,7 @@ runs:
       with:
         sarif_file: ${{ runner.temp }}/hlint.sarif
         category: ${{ inputs.category }}
+
+branding:
+  icon: 'alert-circle'
+  color: 'purple'
