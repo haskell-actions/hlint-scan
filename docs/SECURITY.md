@@ -18,4 +18,4 @@ affected versions, and, if known, mitigations for the issue. Our vulnerability
 management team will respond within 7 working days of your report. This project
 follows a 90 day disclosure timeline.
 
-[file]: https://github.com/chungyc/hlint-scan/issues
+[file]: https://github.com/haskell-actions/hlint-scan/issues

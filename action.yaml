@@ -41,7 +41,7 @@ runs:
 
     - name: Run HLint
       run: |
-        "$BINARY" --no-exit-code --sarif "$FILEPATH" >> $TMPDIR/hlint.sarif
+        "$BINARY" --no-exit-code --sarif "$FILEPATH" >> "$TMPDIR/hlint.sarif"
       shell: bash
       env:
         BINARY: ${{ inputs.binary }}

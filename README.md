@@ -6,9 +6,11 @@ and uploads its suggested improvements to [GitHub code scanning].
 This needs HLint to be set up.
 This can be taken care of by [haskell/actions/hlint-setup].
 
-**Warning**: This depends on unreleased versions of HLint,
-and the location of this action will likely change in the future.
-Neither has the action itself been officially released.
+## Warning
+
+This depends on unreleased versions of HLint.
+For an example as to how one could use this action at the current time,
+see [chungyc/site-personal/hlint.yaml](https://github.com/chungyc/site-personal/blob/main/.github/workflows/hlint.yaml).
 
 ## Usage
 
@@ -28,8 +30,10 @@ jobs:
       security-events: write
     steps:
       - uses: actions/checkout@v3
+        # This step will not work yet.
+        # See the warning in the previous section.
       - uses: haskell/actions/hlint-setup@v2
-      - uses: chungyc/hlint-scan@main
+      - uses: haskell-actions/hlint-scan@v0
 ```
 
 ### Inputs
