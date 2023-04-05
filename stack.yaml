@@ -17,14 +17,19 @@
 # https://docs.haskellstack.org/en/stable/yaml_configuration/
 
 # Resolver to choose a 'specific' stackage snapshot or a compiler version.
-resolver: lts-20.17
+# Use a nightly build for now so that we can build an unreleased version
+# of HLint with SARIF support.
+resolver: nightly-2023-04-05
 
 # User packages to be built.
 packages:
 - .
 
 # Dependency packages to be pulled from upstream that are not in the resolver.
-# extra-deps: []
+extra-deps:
+  # For unreleased version with SARIF support.
+- git: https://github.com/ndmitchell/hlint.git
+  commit: fc88da646e609c060d8369d1deddf8afabc63508
 
 # Override default flag values for local packages and extra-deps
 # flags: {}

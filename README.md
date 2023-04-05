@@ -3,15 +3,6 @@
 This is a GitHub action which scans Haskell code using [HLint]
 and uploads its suggested improvements to [GitHub code scanning].
 
-This needs HLint to be set up.
-This can be taken care of by [haskell/actions/hlint-setup].
-
-## Warning
-
-This depends on unreleased versions of HLint.
-For an example as to how one could use this action at the current time,
-see [chungyc/site-personal/hlint.yaml](https://github.com/chungyc/site-personal/blob/main/.github/workflows/hlint.yaml).
-
 ## Usage
 
 A minimal example for setting up code scanning with HLint:
