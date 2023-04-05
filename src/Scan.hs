@@ -16,7 +16,7 @@ limitations under the License.
 
 module Scan (main) where
 
-import Arguments (translate)
+import Arguments qualified
 import Data.Aeson (Value, decode, encode)
 import Data.ByteString.Lazy
 import Data.String
@@ -27,8 +27,13 @@ import Upload (toCall)
 import Prelude hiding (putStr)
 
 main :: [String] -> IO ()
-main args = do
-  let (executable, flags) = translate args
+main args = case Arguments.validate args of
+  Nothing -> invoke args
+  Just errors -> die errors
+
+invoke :: [String] -> IO ()
+invoke args = do
+  let (executable, flags) = Arguments.translate args
   (exitCode, out, err) <- readCreateProcessWithExitCode (proc executable flags) ""
   case exitCode of
     ExitSuccess -> fingerprint $ fromString out
