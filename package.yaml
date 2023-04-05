@@ -69,3 +69,4 @@ tests:
     - -with-rtsopts=-N
     dependencies:
     - hlint-scan
+    - hspec

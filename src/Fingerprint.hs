@@ -14,9 +14,4 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -}
 
-module Main (main) where
-
-import           Scan
-
-main :: IO ()
-main = someFunc
+module Fingerprint where

@@ -19,7 +19,6 @@ inputs:
   binary:
     description: Path to the hlint binary.
     required: false
-    default: hlint
   path:
     description: Path of file or directory that HLint will be told to scan.
     required: false
@@ -27,7 +26,6 @@ inputs:
   category:
     description: String used by GitHub code scanning for matching the analyses.
     required: false
-    default: null
 
 outputs:
   sarif-id:
@@ -35,25 +33,12 @@ outputs:
     value: ${{ steps.upload-sarif.outputs.sarif-id }}
 
 runs:
-  using: 'composite'
-
-  steps:
-
-    - name: Run HLint
-      run: |
-        "$BINARY" --no-exit-code --sarif "$FILEPATH" >> "$TMPDIR/hlint.sarif"
-      shell: bash
-      env:
-        BINARY: ${{ inputs.binary }}
-        FILEPATH: ${{ inputs.path }}
-        TMPDIR: ${{ runner.temp }}
-
-    - id: upload-sarif
-      name: Upload SARIF file
-      uses: github/codeql-action/upload-sarif@v2
-      with:
-        sarif_file: ${{ runner.temp }}/hlint.sarif
-        category: ${{ inputs.category }}
+  using: docker
+  image: Dockerfile
+  args:
+    - binary=${{ inputs.binary }}
+    - path=${{ inputs.path }}
+    - category=${{ inputs.category }}
 
 branding:
   icon: 'alert-circle'
