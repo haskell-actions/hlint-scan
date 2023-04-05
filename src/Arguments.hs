@@ -14,7 +14,44 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -}
 
-module Arguments (translate) where
+module Arguments (validate, translate) where
+
+import Data.List (group, sort)
+import Data.Maybe (mapMaybe)
+
+validate :: [String] -> Maybe String
+validate args
+  | [] <- errors = Nothing
+  | otherwise = Just $ unlines errors
+  where
+    errors = mapMaybe forString args ++ map (\s -> "duplicate argument: \"" <> s <> "\"") duplicates
+    forString s =
+      if '=' `elem` s
+        then Nothing
+        else Just ("no '=' in \"" <> s <> "\"")
+    keys = map (fst . toTuple) args
+    duplicates = concatMap (take 1) $ filter ((<) 1 .length) $ group $ sort keys
 
 translate :: [String] -> (FilePath, [String])
-translate = undefined
+translate args = (executable', path' : "-j" : "--sarif" : "--no-exit-code" : flags)
+  where
+    argsMap = map toTuple args
+    executable = lookup "binary" argsMap
+    executable'
+      | Nothing <- executable = "/hlint"
+      | Just "" <- executable = "/hlint"
+      | Just s <- executable = s
+    path = lookup "path" argsMap
+    path'
+      | Nothing <- path = "."
+      | Just "" <- path = "."
+      | Just s <- path = s
+    flags = concatMap toFlag $ filter ((==) "binary" . fst) argsMap
+
+toTuple :: String -> (String, String)
+toTuple s = (key, drop 1 prefixedValue)
+  where
+    (key, prefixedValue) = break (== '=') s
+
+toFlag :: (String, String) -> [String]
+toFlag _ = []

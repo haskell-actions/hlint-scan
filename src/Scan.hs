@@ -18,15 +18,13 @@ module Scan (main) where
 
 import Arguments (translate)
 import Fingerprint (fill)
-import System.Environment (getArgs)
 import System.Exit (ExitCode (ExitSuccess), exitWith)
 import System.Process (proc, readCreateProcessWithExitCode)
 import Upload (toRequest)
 
-main :: IO ()
-main = do
-  args <- getArgs
-  mapM_ print args  -- for checking that arguments are received; will be removed
+main :: [String] -> IO ()
+main args = do
+  mapM_ print args -- for checking that arguments are received; will be removed
   let (executable, flags) = translate args
   (exitCode, out, err) <- readCreateProcessWithExitCode (proc executable flags) ""
   case exitCode of

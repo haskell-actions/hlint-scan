@@ -16,7 +16,8 @@ limitations under the License.
 
 module Main (main) where
 
-import qualified Scan as Scan
+import qualified Scan
+import System.Environment (getArgs)
 
 main :: IO ()
-main = Scan.main
+main = getArgs >>= Scan.main
