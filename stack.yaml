@@ -29,7 +29,7 @@ packages:
 extra-deps:
   # For unreleased version with SARIF support.
 - git: https://github.com/ndmitchell/hlint.git
-  commit: fc88da646e609c060d8369d1deddf8afabc63508
+  commit: 8a42c0fea7fa9b9a7e046b9de1f7ef90a03a1401
 
 # Override default flag values for local packages and extra-deps
 # flags: {}
