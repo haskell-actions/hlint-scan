@@ -34,7 +34,7 @@ description: |
   See <https://github.com/haskell-actions/hlint-scan>.
 
 dependencies:
-- base >= 4.7 && < 5
+- base
 
 language: GHC2021
 
@@ -47,6 +47,9 @@ ghc-options:
 
 library:
   source-dirs: src
+  dependencies:
+  - filepath
+  - process
 
 executables:
   hlint-scan:
@@ -60,7 +63,6 @@ executables:
 
     dependencies:
     - hlint-scan
-
 
     # Work around https://github.com/sol/hpack/issues/303.
     when:

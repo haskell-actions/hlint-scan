@@ -16,7 +16,7 @@ limitations under the License.
 
 module Main (main) where
 
-import           Scan
+import qualified Scan as Scan
 
 main :: IO ()
-main = someFunc
+main = Scan.main

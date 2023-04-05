@@ -14,4 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -}
 
-module Fingerprint where
+module Fingerprint (fill) where
+
+fill :: String -> String
+fill = undefined

@@ -14,7 +14,27 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -}
 
-module Scan (someFunc) where
+module Scan (main) where
 
-someFunc :: IO ()
-someFunc = putStrLn "someFunc"
+import Arguments (translate)
+import Fingerprint (fill)
+import System.Environment (getArgs)
+import System.Exit (ExitCode (ExitSuccess), exitWith)
+import System.Process (proc, readCreateProcessWithExitCode)
+import Upload (toRequest)
+
+main :: IO ()
+main = do
+  args <- getArgs
+  let (executable, flags) = translate args
+  (exitCode, out, err) <- readCreateProcessWithExitCode (proc executable flags) ""
+  case exitCode of
+    ExitSuccess -> send out
+    _ -> putStr err >> exitWith exitCode
+
+send :: String -> IO ()
+send output = do
+  let _ = toRequest output'
+  return ()
+  where
+    output' = fill output
