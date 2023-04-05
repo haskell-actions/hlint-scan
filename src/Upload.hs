@@ -14,7 +14,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -}
 
-module Upload (toRequest) where
+module Upload (toCall) where
 
-toRequest :: String -> String
-toRequest = undefined
+import Data.ByteString.Lazy
+import GitHub.REST
+
+toCall :: ByteString -> GHEndpoint
+toCall = undefined

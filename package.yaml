@@ -35,6 +35,10 @@ description: |
 
 dependencies:
 - base
+- aeson
+- bytestring
+- github-rest
+- vector
 
 language: GHC2021
 

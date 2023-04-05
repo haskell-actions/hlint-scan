@@ -16,5 +16,21 @@ limitations under the License.
 
 module Fingerprint (fill) where
 
-fill :: String -> String
-fill = undefined
+import Data.Aeson
+import Data.Aeson.KeyMap
+
+fill :: Value -> Value
+fill (Object v) = Object $ mapWithKey fillRuns v
+fill v = v
+
+fillRuns :: Key -> Value -> Value
+fillRuns "runs" (Array v) = Array $ fmap fillRun v
+fillRuns _ v = v
+
+fillRun :: Value -> Value
+fillRun (Object v) = Object $ mapWithKey fillResult v
+fillRun v = v
+
+fillResult :: Key -> Value -> Value
+fillResult = undefined
+  -- Fingerprint on level, logical location, content

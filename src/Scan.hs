@@ -17,24 +17,42 @@ limitations under the License.
 module Scan (main) where
 
 import Arguments (translate)
-import Fingerprint (fill)
-import System.Exit (ExitCode (ExitSuccess), exitWith)
+import Data.Aeson (Value, decode, encode)
+import Data.ByteString.Lazy
+import Data.String
+import Fingerprint qualified
+import System.Exit (ExitCode (ExitSuccess), die, exitWith)
 import System.Process (proc, readCreateProcessWithExitCode)
-import Upload (toRequest)
+import Upload (toCall)
+import Prelude hiding (putStr)
 
 main :: [String] -> IO ()
 main args = do
-  mapM_ print args -- for checking that arguments are received; will be removed
   let (executable, flags) = translate args
   (exitCode, out, err) <- readCreateProcessWithExitCode (proc executable flags) ""
   case exitCode of
-    ExitSuccess -> send out
-    _ -> putStr err >> exitWith exitCode
+    ExitSuccess -> fingerprint $ fromString out
+    _ -> putStrLn err >> exitWith exitCode
 
-send :: String -> IO ()
-send output = do
-  putStrLn output -- for checking output; will be removed
-  let _ = toRequest output'
-  return ()
+fingerprint :: ByteString -> IO ()
+fingerprint output = do
+  -- debugging
+  putStr output
+  putStrLn ""
+
+  -- debugging
+  putStrLn "With fingerprint filled in:"
+  print output'
+  putStrLn ""
+
+  case output' of
+    Nothing -> die $ "invalid encoding\n" <> show output <> "\n"
+    Just out -> send out
   where
-    output' = fill output
+    value = decode output :: Maybe Value
+    output' = encode . Fingerprint.fill <$> value
+
+send :: ByteString -> IO ()
+send output = do
+  let _ = toCall output
+  return ()
