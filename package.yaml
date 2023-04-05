@@ -52,21 +52,54 @@ executables:
   hlint-scan:
     main:                Main.hs
     source-dirs:         app
+
     ghc-options:
     - -threaded
     - -rtsopts
     - -with-rtsopts=-N
+
     dependencies:
     - hlint-scan
+
+
+    # Work around https://github.com/sol/hpack/issues/303.
+    when:
+      condition: false
+      other-modules: Paths_hlint_scan
 
 tests:
   spec:
     main:                Spec.hs
     source-dirs:         test
+
     ghc-options:
     - -threaded
     - -rtsopts
     - -with-rtsopts=-N
+
     dependencies:
     - hlint-scan
     - hspec
+
+    when:
+      condition: false
+      other-modules:
+      - Examples         # Don't include the doctest runner.
+      - Paths_hlint_scan # Work around https://github.com/sol/hpack/issues/303.
+
+  examples:
+    main: test/Examples.hs
+
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+
+    dependencies:
+    - hlint-scan
+    - doctest-parallel
+
+    # Work around https://github.com/sol/hpack/issues/303.
+    when:
+      condition: false
+      other-modules: Paths_hlint_scan
