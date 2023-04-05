@@ -64,6 +64,9 @@ executables:
     - -threaded
     - -rtsopts
     - -with-rtsopts=-N
+    - -static
+    cc-options: -static
+    ld-options: -static -pthread
 
     dependencies:
     - hlint-scan

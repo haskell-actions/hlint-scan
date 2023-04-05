@@ -10,6 +10,6 @@ RUN stack install hlint hlint-scan:exe:hlint-scan
 RUN cp $(stack path --local-bin)/hlint /
 RUN cp $(stack path --local-bin)/hlint-scan /
 
-FROM haskell:9.4.4-slim
+FROM alpine:3.17.3
 COPY --from=build /hlint /hlint-scan /
 ENTRYPOINT ["/hlint-scan"]
