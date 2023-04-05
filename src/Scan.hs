@@ -33,6 +33,7 @@ main args = do
 
 send :: String -> IO ()
 send output = do
+  putStrLn output -- for checking output; will be removed
   let _ = toRequest output'
   return ()
   where
