@@ -26,6 +26,7 @@ import Upload (toRequest)
 main :: IO ()
 main = do
   args <- getArgs
+  mapM_ print args  -- for checking that arguments are received; will be removed
   let (executable, flags) = translate args
   (exitCode, out, err) <- readCreateProcessWithExitCode (proc executable flags) ""
   case exitCode of
