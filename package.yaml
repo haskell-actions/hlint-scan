@@ -14,7 +14,7 @@
 
 name:                hlint-scan
 version:             0.0.0.0
-github:              "chungyc/hlint-scan"
+github:              "haskell-actions/hlint-scan"
 license:             Apache-2.0
 author:              "Yoo Chung"
 maintainer:          "chungyc@google.com"
@@ -31,7 +31,7 @@ category:            GitHub, Development
 
 description: |
   Scans code with HLint and uploads its analysis results to GitHub code scanning.
-  See <https://github.com/chungyc/hlint-scan>.
+  See <https://github.com/haskell-actions/hlint-scan>.
 
 dependencies:
 - base >= 4.7 && < 5
