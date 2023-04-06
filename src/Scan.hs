@@ -47,7 +47,7 @@ fingerprint output = do
 
   -- debugging
   putStrLn "With fingerprint filled in:"
-  print output'
+  mapM_ putStr output'
   putStrLn ""
 
   case output' of
