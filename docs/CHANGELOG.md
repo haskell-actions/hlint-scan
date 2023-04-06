@@ -10,6 +10,8 @@ the [Haskell Package Versioning Policy].
 
 ## Unreleased
 
+## 0.3.0 - ????-??-??
+
 ## 0.2.0.0 - 2023-04-06
 
 *   Rewrite using a Docker container action using Haskell.
