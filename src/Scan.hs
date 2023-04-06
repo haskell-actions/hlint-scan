@@ -42,19 +42,9 @@ invoke args = do
     _ -> putStrLn err >> exitWith exitCode
 
 fingerprint :: ByteString -> IO ()
-fingerprint output = do
-  -- debugging
-  putStr output
-  putStrLn ""
-
-  -- debugging
-  putStrLn "With fingerprint filled in:"
-  mapM_ putStr output'
-  putStrLn ""
-
-  case output' of
-    Nothing -> die $ "invalid encoding\n" <> show output <> "\n"
-    Just out -> send out
+fingerprint output = case output' of
+  Nothing -> die $ "invalid encoding\n" <> show output <> "\n"
+  Just out -> send out
   where
     value = decode output :: Maybe Value
     output' = encode . Fingerprint.fill <$> value
