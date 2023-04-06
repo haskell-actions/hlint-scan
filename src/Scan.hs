@@ -25,6 +25,7 @@ import System.Exit (ExitCode (ExitSuccess), die, exitWith)
 import System.Process (proc, readCreateProcessWithExitCode)
 import Upload (toCall)
 import Prelude hiding (putStr)
+import System.Environment (getEnvironment)
 
 main :: [String] -> IO ()
 main args = case Arguments.validate args of
@@ -59,5 +60,6 @@ fingerprint output = do
 
 send :: ByteString -> IO ()
 send output = do
-  let _ = toCall output
+  env <- getEnvironment
+  let _ = toCall env output
   return ()
