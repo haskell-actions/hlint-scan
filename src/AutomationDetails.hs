@@ -16,9 +16,9 @@ limitations under the License.
 
 module AutomationDetails (add) where
 
-import Data.Maybe (fromMaybe)
 import Data.Aeson
 import Data.Aeson.KeyMap hiding (lookup, map)
+import Data.Maybe (fromMaybe)
 import Data.Text hiding (singleton)
 
 -- See https://github.com/github/codeql-action/blob/v2/lib/upload-lib.js
