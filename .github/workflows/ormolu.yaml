@@ -1,0 +1,16 @@
+name: Ormolu
+permissions: read-all
+
+on:
+  push:
+    paths:
+      - '**.hs'
+      - '**.lhs'
+
+jobs:
+  ormolu:
+    name: Ormolu
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: haskell-actions/run-ormolu@v11
