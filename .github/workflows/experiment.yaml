@@ -4,17 +4,6 @@ permissions: read-all
 on: [workflow_dispatch]
 
 jobs:
-  scan-v0:
-    name: Scan code with HLint (v0)
-    concurrency: build
-    runs-on: ubuntu-latest
-    permissions:
-      # Needed to upload results to GitHub code scanning.
-      security-events: write
-    steps:
-      - uses: actions/checkout@v3
-      - uses: haskell-actions/hlint-scan@v0
-
   scan-main:
     name: Scan code with HLint (main)
     concurrency: build
