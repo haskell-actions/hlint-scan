@@ -29,12 +29,17 @@ import System.Process (proc, readCreateProcessWithExitCode)
 import Upload (toCall, toOutputs, toSettings)
 import Prelude hiding (lookup, putStr)
 
+-- | Context that will be carried through most of the work flow.
+--
+-- In particular, this is used to pass on the category and access token
+-- which would have been passed in as arguments to the program
+-- from the argument parsing stage to the API call to GitHub.
+data Context = Context {category :: Maybe String, gitHubToken :: Maybe String}
+
 main :: [String] -> IO ()
 main args = case Arguments.validate args of
   Nothing -> invoke args
   Just errors -> die errors
-
-data Context = Context {category :: Maybe String, gitHubToken :: Maybe String}
 
 invoke :: [String] -> IO ()
 invoke args = do
