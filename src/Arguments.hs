@@ -33,7 +33,7 @@ validate args
     duplicates = concatMap (take 1) $ filter ((<) 1 . length) $ group $ sort keys
 
 translate :: [String] -> (FilePath, [String], Maybe String, Maybe String)
-translate args = (executable', path' : "-j" : "--sarif" : "--no-exit-code" : flags, category, token)
+translate args = (executable', [path'] ++ requiredFlags ++ flags, category, token)
   where
     argsMap = map toTuple args
     executable = lookup "binary" argsMap
@@ -51,6 +51,7 @@ translate args = (executable', path' : "-j" : "--sarif" : "--no-exit-code" : fla
     flags =
       concatMap toFlag $
         filter (flip elem ["binary", "path", "category", "token"] . fst) argsMap
+    requiredFlags = ["-j" , "--sarif" , "--no-exit-code"]
 
 toTuple :: String -> (String, String)
 toTuple s = (key, drop 1 prefixedValue)
