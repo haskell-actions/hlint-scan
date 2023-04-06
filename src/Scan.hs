@@ -21,11 +21,12 @@ import Data.Aeson (Value, decode, encode)
 import Data.ByteString.Lazy
 import Data.String
 import Fingerprint qualified
+import GitHub.REST
+import System.Environment (getEnvironment)
 import System.Exit (ExitCode (ExitSuccess), die, exitWith)
 import System.Process (proc, readCreateProcessWithExitCode)
-import Upload (toCall)
+import Upload (toCall, toSettings)
 import Prelude hiding (putStr)
-import System.Environment (getEnvironment)
 
 main :: [String] -> IO ()
 main args = case Arguments.validate args of
@@ -61,5 +62,15 @@ fingerprint output = do
 send :: ByteString -> IO ()
 send output = do
   env <- getEnvironment
-  let _ = toCall env output
-  return ()
+  let settings = toSettings env
+  let endpoint' = toCall env output
+  case endpoint' of
+    Just endpoint -> call settings endpoint
+    _ -> die "missing environment variables\n" <> print env
+
+call :: GitHubSettings -> GHEndpoint -> IO ()
+call settings endpoint = do
+  sarifId <- runGitHubT settings $ do
+    ref <- queryGitHub endpoint
+    return (ref .: "sarif-id" :: String)
+  putStrLn sarifId

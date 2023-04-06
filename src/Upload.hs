@@ -14,19 +14,21 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -}
 
-module Upload (toCall) where
+module Upload (toCall, toSettings) where
 
+import Data.String (fromString)
+import Codec.Compression.GZip
 import Data.ByteString.Lazy (ByteString)
+import Data.ByteString.Lazy.Base64
 import Data.Text
 import GitHub.REST
-import Codec.Compression.GZip
-import Data.ByteString.Lazy.Base64
 
 toCall :: [(String, String)] -> ByteString -> Maybe GHEndpoint
 toCall env sarifLog
   | Just owner <- owner',
     Just repo <- repo',
-    Just commitSha <- commitSha', Just ref <- ref' =
+    Just commitSha <- commitSha',
+    Just ref <- ref' =
       Just
         GHEndpoint
           { method = POST,
@@ -49,3 +51,11 @@ toCall env sarifLog
     commitSha' = lookup "GITHUB_SHA" env
     ref' = lookup "GITHUB_REF" env
     encodedSarif = encodeBase64 $ compress sarifLog
+
+toSettings :: [(String, String)] -> GitHubSettings
+toSettings env =
+  GitHubSettings
+    { token = AccessToken . fromString <$> lookup "GITHUB_TOKEN" env,
+      userAgent = "https://github.com/haskell-actions/hlint-scan",
+      apiVersion = "v3"
+    }
