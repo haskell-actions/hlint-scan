@@ -12,9 +12,9 @@ jobs:
     name: Status check with HLint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: haskell/actions/hlint-setup@v2
-      - uses: haskell/actions/hlint-run@v2
+      - uses: actions/checkout@8f4b7f84864484a7bf31766abe9204da3cbe65b3 # v3.5.0
+      - uses: haskell/actions/hlint-setup@5ff2575cfa27ef8693b7252e0ed1cb0ad87af57e # v2.3.7
+      - uses: haskell/actions/hlint-run@5ff2575cfa27ef8693b7252e0ed1cb0ad87af57e # v2.3.7
         with:
           fail-on: warning
 
@@ -25,5 +25,5 @@ jobs:
       # Needed to upload the results.
       security-events: write
     steps:
-      - uses: actions/checkout@v3
-      - uses: haskell-actions/hlint-scan@v0
+      - uses: actions/checkout@8f4b7f84864484a7bf31766abe9204da3cbe65b3 # v3.5.0
+      - uses: haskell-actions/hlint-scan@7e92e66ad894fe2bd418876615abf2410d58f57a # v0
