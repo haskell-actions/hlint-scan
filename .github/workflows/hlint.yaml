@@ -1,0 +1,29 @@
+name: HLint
+permissions: read-all
+
+on:
+  push:
+    paths:
+      - '**.hs'
+      - '**.lhs'
+
+jobs:
+  status:
+    name: Status check with HLint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: haskell/actions/hlint-setup@v2
+      - uses: haskell/actions/hlint-run@v2
+        with:
+          fail-on: warning
+
+  scan:
+    name: Scan code with HLint
+    runs-on: ubuntu-latest
+    permissions:
+      # Needed to upload the results.
+      security-events: write
+    steps:
+      - uses: actions/checkout@v3
+      - uses: haskell-actions/hlint-scan@v0
