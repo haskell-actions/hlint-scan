@@ -16,24 +16,23 @@ limitations under the License.
 
 module Upload (toCall, toSettings) where
 
-import Data.String (fromString)
 import Codec.Compression.GZip
 import Data.ByteString.Lazy (ByteString)
 import Data.ByteString.Lazy.Base64
+import Data.String (fromString)
 import Data.Text
 import GitHub.REST
 
 toCall :: [(String, String)] -> ByteString -> Maybe GHEndpoint
 toCall env sarifLog
-  | Just owner <- owner',
-    Just repo <- repo',
+  | Just repo <- repo',
     Just commitSha <- commitSha',
     Just ref <- ref' =
       Just
         GHEndpoint
           { method = POST,
-            endpoint = "/repos/:owner/:repo/code-scanning/sarifs",
-            endpointVals = ["owner" := owner, "repo" := repo],
+            endpoint = "/repos/:repo/code-scanning/sarifs",
+            endpointVals = ["repo" := repo],
             ghData =
               [ "commit_sha" := commitSha,
                 "ref" := ref,
@@ -46,8 +45,7 @@ toCall env sarifLog
   where
     -- Both repository owner and name.
     -- I.e., "<owner>/<name>"
-    owner' = lookup "GITHUB_REPOSITORY_OWNER" env
-    repo' = lookup "GITHUB_REPOSITORY_NAME" env
+    repo' = lookup "GITHUB_REPOSITORY" env
     commitSha' = lookup "GITHUB_SHA" env
     ref' = lookup "GITHUB_REF" env
     encodedSarif = encodeBase64 $ compress sarifLog
