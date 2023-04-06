@@ -53,6 +53,8 @@ send :: ByteString -> IO ()
 send output = do
   env <- getEnvironment
   let settings = toSettings env
+  print $ token settings -- remove later
+  print env -- remove later
   let endpoint' = toCall env output
   case endpoint' of
     Just endpoint -> call settings endpoint
