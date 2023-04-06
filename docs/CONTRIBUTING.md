@@ -30,3 +30,14 @@ Guidelines](https://opensource.google/conduct/).
 All submissions, including submissions by project members, require review. We 
 use [GitHub pull requests](https://docs.github.com/articles/about-pull-requests)
 for this purpose.
+
+### Updating versions
+
+When updating the version, these files should be updated accordingly:
+
+*   [`CHANGELOG.md`](../docs/CHANGELOG.md)
+*   [`package.yaml`](../package.yaml)
+
+Once that is done, a new [release] should be done with the new version number.
+
+[release]: https://github.com/haskell-actions/hlint-scan/releases
