@@ -2,7 +2,10 @@ name: Publish Docker Image
 concurrency: build
 permissions: read-all
 
-on: [workflow_dispatch]
+on:
+  workflow_dispatch:
+  push:
+    tags: ['v*']  # Build and publish image on release.
 
 env:
   REGISTRY: ghcr.io
