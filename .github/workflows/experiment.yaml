@@ -6,11 +6,10 @@ on: [workflow_dispatch]
 jobs:
   scan-main:
     name: Scan code with HLint (main)
-    concurrency: build
     runs-on: ubuntu-latest
     permissions:
       # Needed to upload results to GitHub code scanning.
       security-events: write
     steps:
       - uses: actions/checkout@v3
-      - uses: haskell-actions/hlint-scan@main
+      - uses: haskell-actions/hlint-scan@location
