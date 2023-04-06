@@ -1,16 +1,27 @@
 name: Testing Action
-concurrency: build
 permissions: read-all
 
 on: [workflow_dispatch]
 
 jobs:
-  scan:
-    name: Scan code with HLint
+  scan-v0:
+    name: Scan code with HLint (v0)
+    concurrency: build
     runs-on: ubuntu-latest
     permissions:
       # Needed to upload results to GitHub code scanning.
       security-events: write
     steps:
       - uses: actions/checkout@v3
-      - uses: haskell-actions/hlint-scan@haskell
+      - uses: haskell-actions/hlint-scan@v0
+
+  scan-main:
+    name: Scan code with HLint (main)
+    concurrency: build
+    runs-on: ubuntu-latest
+    permissions:
+      # Needed to upload results to GitHub code scanning.
+      security-events: write
+    steps:
+      - uses: actions/checkout@v3
+      - uses: haskell-actions/hlint-scan@main
