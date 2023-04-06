@@ -66,4 +66,4 @@ send context output = do
 
 call :: GitHubSettings -> GHEndpoint -> IO ()
 call settings endpoint = do
-  putStrLn . unlines . toOutputs =<< (runGitHubT settings $ queryGitHub endpoint)
+  putStrLn . unlines . toOutputs =<< runGitHubT settings (queryGitHub endpoint)

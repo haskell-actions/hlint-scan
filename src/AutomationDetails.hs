@@ -16,6 +16,7 @@ limitations under the License.
 
 module AutomationDetails (add) where
 
+import Data.Maybe (fromMaybe)
 import Data.Aeson
 import Data.Aeson.KeyMap hiding (lookup, map)
 import Data.Text hiding (singleton)
@@ -26,8 +27,8 @@ import Data.Text hiding (singleton)
 add :: [(String, String)] -> Maybe String -> Value -> Value
 add env category (Object v) = Object $ mapWithKey (addToRuns details) v
   where
-    details = maybe "" id category <> "/" <> runId
-    runId = maybe "" id (lookup "GITHUB_RUN_ID" env)
+    details = fromMaybe "" category <> "/" <> runId
+    runId = fromMaybe "" (lookup "GITHUB_RUN_ID" env)
 add _ _ v = v
 
 addToRuns :: String -> Key -> Value -> Value
@@ -40,8 +41,7 @@ addToRun details (Object v) = Object $ addDetails details v
 addToRun _ v = v
 
 addDetails :: String -> Object -> Object
-addDetails details v =
+addDetails details =
   insert
     "automationDetails"
     (Object $ singleton "id" (String $ pack details))
-    v
