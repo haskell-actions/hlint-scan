@@ -12,4 +12,14 @@ jobs:
       security-events: write
     steps:
       - uses: actions/checkout@v3
-      - uses: haskell-actions/hlint-scan@location
+      - uses: haskell-actions/hlint-scan@main
+
+  scan-v0:
+    name: Scan code with HLint (v0)
+    runs-on: ubuntu-latest
+    permissions:
+      # Needed to upload results to GitHub code scanning.
+      security-events: write
+    steps:
+      - uses: actions/checkout@v3
+      - uses: haskell-actions/hlint-scan@v0
