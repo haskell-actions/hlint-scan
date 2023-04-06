@@ -21,9 +21,6 @@ jobs:
       security-events: write
     steps:
       - uses: actions/checkout@v3
-        # This step will not work yet.
-        # See the warning in the previous section.
-      - uses: haskell/actions/hlint-setup@v2
       - uses: haskell-actions/hlint-scan@v0
 ```
 
