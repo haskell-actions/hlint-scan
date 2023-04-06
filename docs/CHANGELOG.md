@@ -10,6 +10,10 @@ the [Haskell Package Versioning Policy].
 
 ## Unreleased
 
+*   Rewrite using a Docker container action using Haskell.
+    *   It will no longer need HLint to be set up separately,
+        although it can use one set up by the user if requested to do so.
+
 ## 0.1.0.0 - 2023-04-03
 
 *   Initial working implementation with GitHub composite action.
