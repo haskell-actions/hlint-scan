@@ -39,7 +39,6 @@ toCall env sarifLog
               [ "commit_sha" := commitSha,
                 "ref" := ref,
                 "sarif" := encodedSarif,
-                "checkout_uri" := ("." :: Text),
                 "tool_name" := ("HLint" :: Text),
                 "validate" := True
               ]
