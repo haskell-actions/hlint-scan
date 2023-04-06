@@ -1,0 +1,41 @@
+name: Build
+permissions: read-all
+
+on:
+  push:
+    paths:
+      - 'package.yaml'
+      - 'stack.yaml'
+      - 'app/**'
+      - 'site/**'
+      - 'src/**'
+      - 'test/**'
+
+jobs:
+  build:
+    concurrency: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: haskell/actions/setup@v2
+        with:
+          enable-stack: true
+
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.stack
+          key: stack-${{ hashFiles('package.yaml', 'stack.yaml') }}
+          restore-keys: stack-
+
+      - name: Cache build artifacts
+        uses: actions/cache@v3
+        with:
+          path: .stack-work
+          key: build-${{ hashFiles('app/**', 'src/**', 'test/**') }}
+          restore-keys: build-
+
+      - name: Build and test
+        run: stack build --test
