@@ -23,6 +23,7 @@ import Data.Binary qualified as Binary
 import Data.ByteString.Lazy.Base64 (encodeBase64)
 import Data.Text (Text)
 import Data.Text.Lazy (toStrict)
+import Data.Vector qualified as Vector
 import GHC.Generics (Generic)
 import Prelude hiding (lookup)
 
@@ -78,7 +79,17 @@ addToCodeIssue "location" (Object v) issue =
 addToCodeIssue _ _ issue = issue
 
 logicalLocationsFrom :: Object -> [Text]
-logicalLocationsFrom = undefined
+logicalLocationsFrom v
+  | Just (Array xs) <- logicalLocations =
+      Vector.toList $ Vector.mapMaybe qualifiedName xs
+  | otherwise = []
+  where
+    logicalLocations = lookup "logicalLocations" v
+
+qualifiedName :: Value -> Maybe Text
+qualifiedName (Object v) | Just (String s) <- lookup "fullyQualifiedName" v = Just s
+                         | otherwise = Nothing
+qualifiedName _ = Nothing
 
 toPartialFingerprint :: CodeIssue -> Text
 toPartialFingerprint = toStrict . encodeBase64 . Binary.encode
