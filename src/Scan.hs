@@ -14,6 +14,21 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -}
 
+{- |
+Description: Hooks up sub-modules together.
+Copyright: Copyright 2023 Google LLC
+License: Apache-2.0
+Maintainer: chungyc@google.com
+
+This is a GitHub action which scans Haskell code
+with [HLint](https://github.com/ndmitchell/hlint), which it then uploads
+to [GitHub code scanning dashboards](https://docs.github.com/en/code-security/code-scanning/automatically-scanning-your-code-for-vulnerabilities-and-errors/about-code-scanning).
+See [haskell-actions/hlint-scan](https://github.com/haskell-actions/hlint-scan)
+for more details.
+
+This specific module ties together sub-modules which are responsible
+for processing various stages of the analysis and upload.
+-}
 module Scan (main) where
 
 import Arguments qualified
