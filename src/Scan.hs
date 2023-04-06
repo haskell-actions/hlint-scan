@@ -73,4 +73,4 @@ call settings endpoint = do
   sarifId <- runGitHubT settings $ do
     ref <- queryGitHub endpoint
     return (ref .: "sarif-id" :: String)
-  putStrLn sarifId
+  putStrLn $ "sarif-id=" <> sarifId
