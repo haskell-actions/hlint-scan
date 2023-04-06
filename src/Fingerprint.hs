@@ -43,7 +43,7 @@ fillResults _ v = v
 fillResult :: Value -> Value
 fillResult o@(Object v)
   | member "partialFingerprint" v = o
-  | otherwise = Object $ insert "partialFingerprint" fpValue v
+  | otherwise = Object $ insert "partialFingerprints" fpValue v
   where
     fp = toPartialFingerprint $ toCodeIssue v
     fpValue = Object $ singleton "LogicalCodeIssue/v1" $ String fp
