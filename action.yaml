@@ -26,6 +26,10 @@ inputs:
   category:
     description: String used by GitHub code scanning for matching the analyses.
     required: false
+  token:
+    description: Access token to fetch the repository and write the code scanning results from HLint to GitHub code scanning.
+    required: false
+    default: ${{ github.token }}
 
 outputs:
   sarif-id:
@@ -39,7 +43,7 @@ runs:
     - binary=${{ inputs.binary }}
     - path=${{ inputs.path }}
     - category=${{ inputs.category }}
-    - token=${{ github.token }}
+    - token=${{ inputs.token }}
 
 branding:
   icon: 'alert-circle'
