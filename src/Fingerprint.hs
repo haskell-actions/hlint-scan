@@ -17,15 +17,12 @@ limitations under the License.
 module Fingerprint (fill) where
 
 import Data.Aeson
-import Data.Aeson.KeyMap
-import Data.Binary (Binary)
-import Data.Binary qualified as Binary
-import Data.ByteString.Lazy.Base64 (encodeBase64)
+import Data.Aeson.KeyMap hiding (map)
+import Data.Text.Encoding.Base64 (encodeBase64)
 import Data.Text (Text)
-import Data.Text.Lazy (toStrict)
+import Data.Text qualified as Text
 import Data.Vector qualified as Vector
-import GHC.Generics (Generic)
-import Prelude hiding (lookup)
+import Prelude hiding (lookup, concatMap)
 
 fill :: Value -> Value
 fill (Object v) = Object $ mapWithKey fillRuns v
@@ -57,9 +54,6 @@ data CodeIssue = CodeIssue
     level :: Maybe Text,
     locations :: Maybe [Text] -- Only the logical locations, i.e., full declaration.
   }
-  deriving (Generic)
-
-instance Binary CodeIssue
 
 toCodeIssue :: Object -> CodeIssue
 toCodeIssue =
@@ -92,4 +86,11 @@ qualifiedName (Object v) | Just (String s) <- lookup "fullyQualifiedName" v = Ju
 qualifiedName _ = Nothing
 
 toPartialFingerprint :: CodeIssue -> Text
-toPartialFingerprint = toStrict . encodeBase64 . Binary.encode
+toPartialFingerprint CodeIssue{ruleId, level, locations} =
+  encodeTextList [ruleId, level, encodeTextList . map Just <$> locations]
+
+encodeTextList :: [Maybe Text] -> Text
+encodeTextList = encodeBase64 . Text.concat . map encodeItem
+ where
+  encodeItem Nothing = ":"
+  encodeItem (Just s) = s <> ":"

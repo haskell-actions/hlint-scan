@@ -50,7 +50,6 @@ library:
   dependencies:
   - aeson
   - base64
-  - binary
   - bytestring
   - filepath
   - github-rest
