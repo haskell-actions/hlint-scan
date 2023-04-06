@@ -40,7 +40,7 @@ toCall env sarifLog
               [ "commit_sha" := commitSha,
                 "ref" := ref,
                 "sarif" := encodedSarif,
-                "checkout_uri" := workspace,
+                "checkout_uri" := "file://" <> workspace,
                 "tool_name" := ("HLint" :: Text),
                 "validate" := True
               ]
