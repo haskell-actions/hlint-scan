@@ -14,6 +14,16 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -}
 
+-- |
+-- Description: Fills partial fingerprints.
+-- Copyright: Copyright 2023 Google LLC
+-- License: Apache-2.0
+-- Maintainer: chungyc@google.com
+--
+-- SARIF uses partial fingerprints in results to aid in an attempt
+-- to track the "same" issues despite changes.  This fills partial
+-- fingerprints in results which do not already have them,
+-- while keeping everything else the same in SARIF output.
 module Fingerprint (fill) where
 
 import Data.Aeson

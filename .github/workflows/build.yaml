@@ -7,7 +7,6 @@ on:
       - 'package.yaml'
       - 'stack.yaml'
       - 'app/**'
-      - 'site/**'
       - 'src/**'
       - 'test/**'
 
