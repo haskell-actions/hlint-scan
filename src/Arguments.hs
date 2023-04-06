@@ -48,9 +48,8 @@ translate args = (executable', [path'] ++ requiredFlags ++ flags, category, toke
       | Just s <- path = s
     category = lookup "category" argsMap
     token = lookup "token" argsMap
-    flags =
-      concatMap toFlag $
-        filter (flip elem ["binary", "path", "category", "token"] . fst) argsMap
+    flags = concatMap toFlag $ filter (flip elem specialArgs . fst) argsMap
+    specialArgs = ["binary", "path", "category", "token"]
     requiredFlags = ["-j" , "--sarif" , "--no-exit-code"]
 
 toTuple :: String -> (String, String)
