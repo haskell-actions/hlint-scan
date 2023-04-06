@@ -35,10 +35,6 @@ description: |
 
 dependencies:
 - base
-- aeson
-- bytestring
-- github-rest
-- vector
 
 language: GHC2021
 
@@ -52,8 +48,15 @@ ghc-options:
 library:
   source-dirs: src
   dependencies:
+  - aeson
+  - base64
+  - binary
+  - bytestring
   - filepath
+  - github-rest
   - process
+  - text
+  - vector
 
 executables:
   hlint-scan:

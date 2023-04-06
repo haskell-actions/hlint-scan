@@ -18,6 +18,13 @@ module Fingerprint (fill) where
 
 import Data.Aeson
 import Data.Aeson.KeyMap
+import Data.Binary (Binary)
+import Data.Binary qualified as Binary
+import Data.ByteString.Lazy.Base64 (encodeBase64)
+import Data.Text (Text)
+import Data.Text.Lazy (toStrict)
+import GHC.Generics (Generic)
+import Prelude hiding (lookup)
 
 fill :: Value -> Value
 fill (Object v) = Object $ mapWithKey fillRuns v
@@ -28,9 +35,50 @@ fillRuns "runs" (Array v) = Array $ fmap fillRun v
 fillRuns _ v = v
 
 fillRun :: Value -> Value
-fillRun (Object v) = Object $ mapWithKey fillResult v
+fillRun (Object v) = Object $ mapWithKey fillResults v
 fillRun v = v
 
-fillResult :: Key -> Value -> Value
-fillResult = undefined
-  -- Fingerprint on level, logical location, content
+fillResults :: Key -> Value -> Value
+fillResults "results" (Array v) = Array $ fmap fillResult v
+fillResults _ v = v
+
+fillResult :: Value -> Value
+fillResult o@(Object v)
+  | member "partialFingerprint" v = o
+  | otherwise = Object $ insert "partialFingerprint" fpValue v
+  where
+    fp = toPartialFingerprint $ toCodeIssue v
+    fpValue = Object $ singleton "LogicalCodeIssue/v1" $ String fp
+fillResult v = v
+
+data CodeIssue = CodeIssue
+  { ruleId :: Maybe Text,
+    level :: Maybe Text,
+    locations :: Maybe [Text] -- Only the logical locations, i.e., full declaration.
+  }
+  deriving (Generic)
+
+instance Binary CodeIssue
+
+toCodeIssue :: Object -> CodeIssue
+toCodeIssue =
+  foldrWithKey
+    addToCodeIssue
+    CodeIssue
+      { ruleId = Nothing,
+        level = Nothing,
+        locations = Nothing
+      }
+
+addToCodeIssue :: Key -> Value -> CodeIssue -> CodeIssue
+addToCodeIssue "ruleId" (String s) issue = issue {ruleId = Just s}
+addToCodeIssue "level" (String s) issue = issue {level = Just s}
+addToCodeIssue "location" (Object v) issue =
+  issue {locations = Just $ logicalLocationsFrom v}
+addToCodeIssue _ _ issue = issue
+
+logicalLocationsFrom :: Object -> [Text]
+logicalLocationsFrom = undefined
+
+toPartialFingerprint :: CodeIssue -> Text
+toPartialFingerprint = toStrict . encodeBase64 . Binary.encode
