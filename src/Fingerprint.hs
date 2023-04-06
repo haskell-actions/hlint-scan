@@ -18,11 +18,11 @@ module Fingerprint (fill) where
 
 import Data.Aeson
 import Data.Aeson.KeyMap hiding (map)
-import Data.Text.Encoding.Base64 (encodeBase64)
 import Data.Text (Text)
 import Data.Text qualified as Text
+import Data.Text.Encoding.Base64 (encodeBase64)
 import Data.Vector qualified as Vector
-import Prelude hiding (lookup, concatMap)
+import Prelude hiding (concatMap, lookup)
 
 fill :: Value -> Value
 fill (Object v) = Object $ mapWithKey fillRuns v
@@ -81,16 +81,17 @@ logicalLocationsFrom v
     logicalLocations = lookup "logicalLocations" v
 
 qualifiedName :: Value -> Maybe Text
-qualifiedName (Object v) | Just (String s) <- lookup "fullyQualifiedName" v = Just s
-                         | otherwise = Nothing
+qualifiedName (Object v)
+  | Just (String s) <- lookup "fullyQualifiedName" v = Just s
+  | otherwise = Nothing
 qualifiedName _ = Nothing
 
 toPartialFingerprint :: CodeIssue -> Text
-toPartialFingerprint CodeIssue{ruleId, level, locations} =
+toPartialFingerprint CodeIssue {ruleId, level, locations} =
   encodeTextList [ruleId, level, encodeTextList . map Just <$> locations]
 
 encodeTextList :: [Maybe Text] -> Text
 encodeTextList = encodeBase64 . Text.concat . map encodeItem
- where
-  encodeItem Nothing = ":"
-  encodeItem (Just s) = s <> ":"
+  where
+    encodeItem Nothing = ":"
+    encodeItem (Just s) = s <> ":"
