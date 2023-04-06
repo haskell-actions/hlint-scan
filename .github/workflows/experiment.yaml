@@ -14,5 +14,3 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: haskell-actions/hlint-scan@haskell
-        env:
-          GITHUB_TOKEN: ${{ github.token }}

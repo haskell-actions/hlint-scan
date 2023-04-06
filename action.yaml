@@ -23,12 +23,9 @@ inputs:
     description: Path of file or directory that HLint will be told to scan.
     required: false
     default: .
-#
-# The new Haskell-based workflow does not support this yet.
-#
-#  category:
-#    description: String used by GitHub code scanning for matching the analyses.
-#    required: false
+  category:
+    description: String used by GitHub code scanning for matching the analyses.
+    required: false
 
 outputs:
   sarif-id:
@@ -42,6 +39,7 @@ runs:
     - binary=${{ inputs.binary }}
     - path=${{ inputs.path }}
     - category=${{ inputs.category }}
+    - token=${{ github.token }}
 
 branding:
   icon: 'alert-circle'

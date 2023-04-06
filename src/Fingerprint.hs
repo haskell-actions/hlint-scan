@@ -52,7 +52,7 @@ fillResult v = v
 data CodeIssue = CodeIssue
   { ruleId :: Maybe Text,
     level :: Maybe Text,
-    locations :: Maybe [Text] -- Only the logical locations, i.e., full declaration.
+    locations :: Maybe [Text] -- Only the logical locations, i.e., full declarations.
   }
 
 toCodeIssue :: Object -> CodeIssue

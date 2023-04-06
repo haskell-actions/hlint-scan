@@ -52,10 +52,10 @@ toCall env sarifLog
     ref' = lookup "GITHUB_REF" env
     encodedSarif = encodeBase64 $ compress sarifLog
 
-toSettings :: [(String, String)] -> GitHubSettings
-toSettings env =
+toSettings :: Maybe String -> GitHubSettings
+toSettings tok =
   GitHubSettings
-    { token = AccessToken . fromString <$> lookup "GITHUB_TOKEN" env,
+    { token = AccessToken . fromString <$> tok,
       userAgent = "https://github.com/haskell-actions/hlint-scan",
       apiVersion = "v3"
     }

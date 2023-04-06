@@ -38,12 +38,8 @@ You only need to set them if the defaults do not work for your situation.
 `path`
 :   Path of file or directory that HLint will be told to scan.
 
-<!--
-The new Haskell-based workflow does not support this yet.
-
 `category`
 :   String used by GitHub code scanning for matching the analyses.
--->
 
 ### Outputs
 

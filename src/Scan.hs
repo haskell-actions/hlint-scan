@@ -17,6 +17,7 @@ limitations under the License.
 module Scan (main) where
 
 import Arguments qualified
+import AutomationDetails qualified
 import Data.Aeson (Value, decode, encode)
 import Data.ByteString.Lazy
 import Data.String
@@ -33,26 +34,31 @@ main args = case Arguments.validate args of
   Nothing -> invoke args
   Just errors -> die errors
 
+data Context = Context {category :: Maybe String, gitHubToken :: Maybe String}
+
 invoke :: [String] -> IO ()
 invoke args = do
-  let (executable, flags) = Arguments.translate args
+  let (executable, flags, cat, tok) = Arguments.translate args
   (exitCode, out, err) <- readCreateProcessWithExitCode (proc executable flags) ""
   case exitCode of
-    ExitSuccess -> fingerprint $ fromString out
+    ExitSuccess -> annotate Context {category = cat, gitHubToken = tok} (fromString out)
     _ -> putStrLn err >> exitWith exitCode
 
-fingerprint :: ByteString -> IO ()
-fingerprint output = case output' of
-  Nothing -> die $ "invalid encoding\n" <> show output <> "\n"
-  Just out -> send out
+annotate :: Context -> ByteString -> IO ()
+annotate context output = do
+  env <- getEnvironment
+  let annotated = AutomationDetails.add env (category context) <$> value
+  let annotated' = Fingerprint.fill <$> annotated
+  case annotated' of
+    Nothing -> die $ "invalid encoding\n" <> show output <> "\n"
+    Just output' -> send context (encode output')
   where
     value = decode output :: Maybe Value
-    output' = encode . Fingerprint.fill <$> value
 
-send :: ByteString -> IO ()
-send output = do
+send :: Context -> ByteString -> IO ()
+send context output = do
   env <- getEnvironment
-  let settings = toSettings env
+  let settings = toSettings $ gitHubToken context
   let endpoint' = toCall env output
   case endpoint' of
     Just endpoint -> call settings endpoint

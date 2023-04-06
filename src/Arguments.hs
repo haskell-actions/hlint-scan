@@ -30,10 +30,10 @@ validate args
         then Nothing
         else Just ("no '=' in \"" <> s <> "\"")
     keys = map (fst . toTuple) args
-    duplicates = concatMap (take 1) $ filter ((<) 1 .length) $ group $ sort keys
+    duplicates = concatMap (take 1) $ filter ((<) 1 . length) $ group $ sort keys
 
-translate :: [String] -> (FilePath, [String])
-translate args = (executable', path' : "-j" : "--sarif" : "--no-exit-code" : flags)
+translate :: [String] -> (FilePath, [String], Maybe String, Maybe String)
+translate args = (executable', path' : "-j" : "--sarif" : "--no-exit-code" : flags, category, token)
   where
     argsMap = map toTuple args
     executable = lookup "binary" argsMap
@@ -46,7 +46,11 @@ translate args = (executable', path' : "-j" : "--sarif" : "--no-exit-code" : fla
       | Nothing <- path = "."
       | Just "" <- path = "."
       | Just s <- path = s
-    flags = concatMap toFlag $ filter ((==) "binary" . fst) argsMap
+    category = lookup "category" argsMap
+    token = lookup "token" argsMap
+    flags =
+      concatMap toFlag $
+        filter (flip elem ["binary", "path", "category", "token"] . fst) argsMap
 
 toTuple :: String -> (String, String)
 toTuple s = (key, drop 1 prefixedValue)
