@@ -11,8 +11,8 @@ jobs:
       # Needed to upload results to GitHub code scanning.
       security-events: write
     steps:
-      - uses: actions/checkout@v3
-      - uses: haskell-actions/hlint-scan@main
+      - uses: actions/checkout@8f4b7f84864484a7bf31766abe9204da3cbe65b3 # v3.5.0
+      - uses: haskell-actions/hlint-scan@460242f8ce8b2763b208e13b8572b8dff772df4d # main
 
   scan-v0:
     name: Scan code with HLint (v0)
@@ -21,5 +21,5 @@ jobs:
       # Needed to upload results to GitHub code scanning.
       security-events: write
     steps:
-      - uses: actions/checkout@v3
-      - uses: haskell-actions/hlint-scan@v0
+      - uses: actions/checkout@8f4b7f84864484a7bf31766abe9204da3cbe65b3 # v3.5.0
+      - uses: haskell-actions/hlint-scan@7e92e66ad894fe2bd418876615abf2410d58f57a # v0
