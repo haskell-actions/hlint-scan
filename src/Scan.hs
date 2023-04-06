@@ -66,7 +66,7 @@ send output = do
   let endpoint' = toCall env output
   case endpoint' of
     Just endpoint -> call settings endpoint
-    _ -> die "missing environment variables\n" <> print env
+    _ -> die ("missing environment variables\n" <> show env)
 
 call :: GitHubSettings -> GHEndpoint -> IO ()
 call settings endpoint = do
