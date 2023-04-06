@@ -1,0 +1,97 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.35.1.
+--
+-- see: https://github.com/sol/hpack
+
+name:           hlint-scan
+version:        0.3.0
+synopsis:       Code scanning GitHub action using HLint.
+description:    Scans code with HLint and uploads its analysis results to GitHub code scanning.
+                See <https://github.com/haskell-actions/hlint-scan>.
+category:       GitHub, Development
+homepage:       https://github.com/haskell-actions/hlint-scan#readme
+bug-reports:    https://github.com/haskell-actions/hlint-scan/issues
+author:         Yoo Chung
+maintainer:     chungyc@google.com
+copyright:      Copyright 2023 Google LLC
+license:        Apache-2.0
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    action.yaml
+    LICENSE
+    README.md
+    docs/CHANGELOG.md
+    docs/CODE_OF_CONDUCT.md
+    docs/CONTRIBUTING.md
+    docs/SECURITY.md
+
+source-repository head
+  type: git
+  location: https://github.com/haskell-actions/hlint-scan
+
+library
+  exposed-modules:
+      Arguments
+      AutomationDetails
+      Fingerprint
+      Scan
+      Upload
+  other-modules:
+      Paths_hlint_scan
+  hs-source-dirs:
+      src
+  default-extensions:
+      OverloadedStrings
+  ghc-options: -Wall -Werror
+  build-depends:
+      aeson
+    , base
+    , base64
+    , bytestring
+    , filepath
+    , github-rest
+    , process
+    , text
+    , vector
+    , zlib
+  default-language: GHC2021
+
+executable hlint-scan
+  main-is: Main.hs
+  hs-source-dirs:
+      app
+  default-extensions:
+      OverloadedStrings
+  ghc-options: -Wall -Werror -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base
+    , hlint-scan
+  default-language: GHC2021
+
+test-suite examples
+  type: exitcode-stdio-1.0
+  main-is: test/Examples.hs
+  default-extensions:
+      OverloadedStrings
+  ghc-options: -Wall -Werror -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base
+    , doctest-parallel
+    , hlint-scan
+  default-language: GHC2021
+
+test-suite spec
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  hs-source-dirs:
+      test
+  default-extensions:
+      OverloadedStrings
+  ghc-options: -Wall -Werror -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base
+    , hlint-scan
+    , hspec
+  default-language: GHC2021
