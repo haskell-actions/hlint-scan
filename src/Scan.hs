@@ -25,8 +25,8 @@ import GitHub.REST
 import System.Environment (getEnvironment)
 import System.Exit (ExitCode (ExitSuccess), die, exitWith)
 import System.Process (proc, readCreateProcessWithExitCode)
-import Upload (toCall, toSettings)
-import Prelude hiding (putStr)
+import Upload (toCall, toOutputs, toSettings)
+import Prelude hiding (lookup, putStr)
 
 main :: [String] -> IO ()
 main args = case Arguments.validate args of
@@ -53,8 +53,6 @@ send :: ByteString -> IO ()
 send output = do
   env <- getEnvironment
   let settings = toSettings env
-  print $ token settings -- remove later
-  print env -- remove later
   let endpoint' = toCall env output
   case endpoint' of
     Just endpoint -> call settings endpoint
@@ -62,7 +60,4 @@ send output = do
 
 call :: GitHubSettings -> GHEndpoint -> IO ()
 call settings endpoint = do
-  sarifId <- runGitHubT settings $ do
-    ref <- queryGitHub endpoint
-    return (ref .: "sarif-id" :: String)
-  putStrLn $ "sarif-id=" <> sarifId
+  putStrLn . unlines . toOutputs =<< (runGitHubT settings $ queryGitHub endpoint)

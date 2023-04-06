@@ -14,8 +14,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -}
 
-module Upload (toCall, toSettings) where
+module Upload (toCall, toSettings, toOutputs) where
 
+import Data.Aeson
+import Data.Aeson.KeyMap qualified as KeyMap
 import Codec.Compression.GZip
 import Data.ByteString.Lazy (ByteString)
 import Data.ByteString.Lazy.Base64
@@ -57,3 +59,10 @@ toSettings env =
       userAgent = "https://github.com/haskell-actions/hlint-scan",
       apiVersion = "v3"
     }
+
+toOutputs :: Value -> [String]
+toOutputs (Object response) =
+  case KeyMap.lookup "id" response of
+    Just (String sarifId) -> ["sarif-id=" <> unpack sarifId]
+    _ -> []
+toOutputs _ = []
