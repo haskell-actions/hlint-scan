@@ -57,6 +57,7 @@ library:
   - process
   - text
   - vector
+  - zlib
 
 executables:
   hlint-scan:

@@ -19,9 +19,11 @@ module Upload (toCall) where
 import Data.ByteString.Lazy (ByteString)
 import Data.Text
 import GitHub.REST
+import Codec.Compression.GZip
+import Data.ByteString.Lazy.Base64
 
 toCall :: [(String, String)] -> ByteString -> Maybe GHEndpoint
-toCall env _
+toCall env sarifLog
   | Just owner <- owner',
     Just repo <- repo',
     Just commitSha <- commitSha', Just ref <- ref' =
@@ -33,9 +35,7 @@ toCall env _
             ghData =
               [ "commit_sha" := commitSha,
                 "ref" := ref,
-                "sarif" := todo,
-                "checkout_uri" := todo,
-                "started_at" := todo,
+                "sarif" := encodedSarif,
                 "tool_name" := ("HLint" :: Text),
                 "validate" := True
               ]
@@ -48,6 +48,4 @@ toCall env _
     repo' = lookup "GITHUB_REPOSITORY_NAME" env
     commitSha' = lookup "GITHUB_SHA" env
     ref' = lookup "GITHUB_REF" env
-
-todo :: Text
-todo = undefined
+    encodedSarif = encodeBase64 $ compress sarifLog
