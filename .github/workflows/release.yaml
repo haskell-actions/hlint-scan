@@ -3,17 +3,8 @@ concurrency: build
 permissions: read-all
 
 on:
-
-  workflow_dispatch:
-    inputs:
-      reference:
-        description: Branch, tag, or hash of commit to build.
-        required: false
-        default: main
-        type: string
-
-  push:
-    tags: ['v*']  # Build and publish image on release.
+  release:
+    types: [published]
 
 env:
   REGISTRY: ghcr.io
@@ -58,3 +49,11 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+  major-version-tagging:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Update version tags
+        uses: zyactions/update-semver@v1
+        with:
+          ignore-prerelease: false
