@@ -3,12 +3,6 @@ permissions: read-all
 
 on:
   push:
-    paths:
-      - 'package.yaml'
-      - 'stack.yaml'
-      - 'app/**'
-      - 'src/**'
-      - 'test/**'
 
 jobs:
   build:
