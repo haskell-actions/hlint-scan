@@ -54,6 +54,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Update version tags
-        uses: zyactions/update-semver@v1
+        uses: zyactions/update-semver@c9a9216ea7196808948ba819fa19abe4a246a711 # v1.0.3
         with:
           ignore-prerelease: false
