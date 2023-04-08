@@ -35,6 +35,7 @@ import AutomationDetails qualified
 import Data.Aeson (Value, decode, encode)
 import Data.ByteString.Lazy
 import Data.String
+import FilePath qualified
 import Fingerprint qualified
 import GitHub.REST
 import System.Environment (getEnvironment)
@@ -72,7 +73,7 @@ annotate :: Context -> ByteString -> IO ()
 annotate context output = do
   env <- getEnvironment
   let annotated = AutomationDetails.add env (category context) <$> value
-  let annotated' = Fingerprint.fill <$> annotated
+  let annotated' = FilePath.normalize . Fingerprint.fill <$> annotated
   case annotated' of
     Nothing -> die $ "invalid encoding\n" <> show output <> "\n"
     Just output' -> send context $ encode output'
