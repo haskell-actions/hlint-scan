@@ -29,7 +29,8 @@ toCall :: [(String, String)] -> ByteString -> Maybe GHEndpoint
 toCall env sarifLog
   | Just repo <- repo',
     Just commitSha <- commitSha',
-    Just ref <- ref' =
+    Just ref <- ref',
+    Just workspace <- workspace' =
       Just
         GHEndpoint
           { method = POST,
@@ -39,6 +40,7 @@ toCall env sarifLog
               [ "commit_sha" := commitSha,
                 "ref" := ref,
                 "sarif" := encodedSarif,
+                "checkout_uri" := "file://" <> workspace,
                 "tool_name" := ("HLint" :: Text),
                 "validate" := True
               ]
@@ -50,6 +52,7 @@ toCall env sarifLog
     repo' = lookup "GITHUB_REPOSITORY" env
     commitSha' = lookup "GITHUB_SHA" env
     ref' = lookup "GITHUB_REF" env
+    workspace' = lookup "GITHUB_WORKSPACE" env
     encodedSarif = encodeBase64 $ compress sarifLog
 
 toSettings :: Maybe String -> GitHubSettings
