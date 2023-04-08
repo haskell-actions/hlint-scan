@@ -22,7 +22,7 @@ limitations under the License.
 --
 -- SARIF uses partial fingerprints in results to aid in an attempt
 -- to track the "same" issues despite changes.  This fills partial
--- fingerprints in results which do not already have them,
+-- fingerprints in result objects which do not already have them,
 -- while keeping everything else the same in SARIF output.
 module Fingerprint (fill) where
 
@@ -53,10 +53,9 @@ fillResults _ v = v
 fillResult :: Value -> Value
 fillResult o@(Object v)
   | member "partialFingerprint" v = o
-  | otherwise = Object $ insert "partialFingerprints" fpValue v
+  | otherwise = Object $ insert "partialFingerprints" fp v
   where
-    fp = toPartialFingerprint $ toCodeIssue v
-    fpValue = Object $ singleton "LogicalCodeIssue/v1" $ String fp
+    fp = toPartialFingerprint v
 fillResult v = v
 
 data CodeIssue = CodeIssue
@@ -96,9 +95,14 @@ qualifiedName (Object v)
   | otherwise = Nothing
 qualifiedName _ = Nothing
 
-toPartialFingerprint :: CodeIssue -> Text
-toPartialFingerprint CodeIssue {ruleId, level, locations} =
-  encodeTextList [ruleId, level, encodeTextList . map Just <$> locations]
+toPartialFingerprint :: Object -> Value
+toPartialFingerprint v =
+  Object $ singleton propertyName $ String encodedResult
+  where
+    CodeIssue {ruleId, level, locations} = toCodeIssue v
+    encodedLocations = encodeTextList . map Just <$> locations
+    encodedResult = encodeTextList [ruleId, level, encodedLocations]
+    propertyName = "LogicalCodeIssue/v1"
 
 encodeTextList :: [Maybe Text] -> Text
 encodeTextList = encodeBase64 . Text.concat . map encodeItem

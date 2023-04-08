@@ -21,27 +21,22 @@ import Data.Aeson.KeyMap hiding (lookup, map)
 import Data.Maybe (fromMaybe)
 import Data.Text hiding (singleton)
 
--- See https://github.com/github/codeql-action/blob/v2/lib/upload-lib.js
 -- See https://docs.github.com/en/code-security/code-scanning/integrating-with-code-scanning/sarif-support-for-code-scanning#runautomationdetails-object
 
 add :: [(String, String)] -> Maybe String -> Value -> Value
-add env category (Object v) = Object $ mapWithKey (addToRuns details) v
+add env category (Object v) = Object $ mapWithKey addToRuns v
   where
     details = fromMaybe "" category <> "/" <> runId
     runId = fromMaybe "" (lookup "GITHUB_RUN_ID" env)
+
+    addToRuns "runs" (Array u) = Array $ fmap addToRun u
+    addToRuns _ u = u
+
+    addToRun (Object u) = Object $ addDetails u
+    addToRun u = u
+
+    addDetails =
+      insert
+        "automationDetails"
+        (Object $ singleton "id" (String $ pack details))
 add _ _ v = v
-
-addToRuns :: String -> Key -> Value -> Value
-addToRuns details "runs" (Array v) =
-  Array $ fmap (addToRun details) v
-addToRuns _ _ v = v
-
-addToRun :: String -> Value -> Value
-addToRun details (Object v) = Object $ addDetails details v
-addToRun _ v = v
-
-addDetails :: String -> Object -> Object
-addDetails details =
-  insert
-    "automationDetails"
-    (Object $ singleton "id" (String $ pack details))

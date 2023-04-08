@@ -48,7 +48,10 @@ import Prelude hiding (lookup, putStr)
 -- In particular, this is used to pass on the category and access token
 -- which would have been passed in as arguments to the program
 -- from the argument parsing stage to the API call to GitHub.
-data Context = Context {category :: Maybe String, gitHubToken :: Maybe String}
+data Context = Context
+  { category :: Maybe String,
+    gitHubToken :: Maybe String
+  }
 
 main :: [String] -> IO ()
 main args = case Arguments.validate args of
@@ -57,10 +60,12 @@ main args = case Arguments.validate args of
 
 invoke :: [String] -> IO ()
 invoke args = do
-  let (executable, flags, cat, tok) = Arguments.translate args
-  (exitCode, out, err) <- readCreateProcessWithExitCode (proc executable flags) ""
+  let (executable, flags, category, token) = Arguments.translate args
+  (exitCode, out, err) <-
+    readCreateProcessWithExitCode (proc executable flags) ""
+  let context = Context {category = category, gitHubToken = token}
   case exitCode of
-    ExitSuccess -> annotate Context {category = cat, gitHubToken = tok} (fromString out)
+    ExitSuccess -> annotate context $ fromString out
     _ -> putStrLn err >> exitWith exitCode
 
 annotate :: Context -> ByteString -> IO ()
@@ -70,7 +75,7 @@ annotate context output = do
   let annotated' = Fingerprint.fill <$> annotated
   case annotated' of
     Nothing -> die $ "invalid encoding\n" <> show output <> "\n"
-    Just output' -> send context (encode output')
+    Just output' -> send context $ encode output'
   where
     value = decode output :: Maybe Value
 
@@ -81,8 +86,9 @@ send context output = do
   let endpoint' = toCall env output
   case endpoint' of
     Just endpoint -> call settings endpoint
-    _ -> die ("missing environment variables\n" <> show env)
+    _ -> die "not all necessary environment variables available"
 
 call :: GitHubSettings -> GHEndpoint -> IO ()
-call settings endpoint = do
-  putStrLn . unlines . toOutputs =<< runGitHubT settings (queryGitHub endpoint)
+call settings endpoint =
+  putStrLn . unlines . toOutputs
+    =<< runGitHubT settings (queryGitHub endpoint)
