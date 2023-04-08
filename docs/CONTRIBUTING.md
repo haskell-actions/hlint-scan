@@ -35,8 +35,9 @@ for this purpose.
 
 When updating the version, these files should be updated accordingly:
 
-*   [`CHANGELOG.md`](../docs/CHANGELOG.md)
+*   [`CHANGELOG.md`](CHANGELOG.md)
 *   [`package.yaml`](../package.yaml)
+*   [`action.yaml`](../action.yaml)
 
 Once that is done, a new [release] should be done with the new version number.
 
