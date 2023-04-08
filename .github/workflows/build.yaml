@@ -16,21 +16,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@8f4b7f84864484a7bf31766abe9204da3cbe65b3 # v3.5.0
 
-      - uses: haskell/actions/setup@v2
+      - uses: haskell/actions/setup@5ff2575cfa27ef8693b7252e0ed1cb0ad87af57e # v2.3.7
         with:
           enable-stack: true
 
       - name: Cache dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3.3.1
         with:
           path: ~/.stack
           key: stack-${{ hashFiles('package.yaml', 'stack.yaml') }}
           restore-keys: stack-
 
       - name: Cache build artifacts
-        uses: actions/cache@v3
+        uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3.3.1
         with:
           path: .stack-work
           key: build-${{ hashFiles('app/**', 'src/**', 'test/**') }}
