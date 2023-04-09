@@ -22,7 +22,7 @@ import Data.Aeson.KeyMap qualified as KeyMap
 import Data.ByteString.Lazy (ByteString)
 import Data.ByteString.Lazy.Base64
 import Data.String (fromString)
-import Data.Text
+import Data.Text (Text, unpack)
 import GitHub.REST
 
 toCall :: [(String, String)] -> ByteString -> Maybe GHEndpoint
@@ -64,8 +64,9 @@ toSettings tok =
     }
 
 toOutputs :: Value -> [String]
-toOutputs (Object response) =
-  case KeyMap.lookup "id" response of
-    Just (String sarifId) -> ["sarif-id=" <> unpack sarifId]
-    _ -> []
+toOutputs (Object response) = concatMap toOutput $ KeyMap.toList response
+  where
+    toOutput ("id", String sarifId) = ["sarif-id=" <> unpack sarifId]
+    toOutput ("url", String url) = ["sarif-url=" <> unpack url]
+    toOutput _ = []
 toOutputs _ = []
