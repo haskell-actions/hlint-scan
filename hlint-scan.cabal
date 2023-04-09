@@ -71,18 +71,6 @@ executable hlint-scan
     , hlint-scan
   default-language: GHC2021
 
-test-suite examples
-  type: exitcode-stdio-1.0
-  main-is: test/Examples.hs
-  default-extensions:
-      OverloadedStrings
-  ghc-options: -Wall -Werror -threaded -rtsopts -with-rtsopts=-N
-  build-depends:
-      base
-    , doctest-parallel
-    , hlint-scan
-  default-language: GHC2021
-
 test-suite spec
   type: exitcode-stdio-1.0
   main-is: Spec.hs

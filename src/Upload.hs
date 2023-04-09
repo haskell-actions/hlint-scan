@@ -14,6 +14,18 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -}
 
+-- |
+-- Description: Uploads SARIF files to GitHub.
+-- Copyright: Copyright 2023 Google LLC
+-- License: Apache-2.0
+-- Maintainer: chungyc@google.com
+--
+-- This module is responsible for deriving the call and the settings
+-- for uploading a SARIF file to GitHub.  It is also responsible for
+-- actually uploading the SARIF file.
+--
+-- This is only responsible for pure computations.
+-- The caller needs to make the actual calls to GitHub.
 module Upload (toCall, toSettings, toOutputs) where
 
 import Codec.Compression.GZip
@@ -25,7 +37,18 @@ import Data.String (fromString)
 import Data.Text (Text, unpack)
 import GitHub.REST
 
-toCall :: [(String, String)] -> ByteString -> Maybe GHEndpoint
+
+-- | Converts SARIF output into a GitHub REST API call.
+-- It will derive necessary parameters from the system environment.
+--
+-- See ["Upload an analysis as SARIF data"](https://docs.github.com/en/rest/code-scanning?apiVersion=2022-11-28#upload-an-analysis-as-sarif-data) for more details.
+toCall ::
+  -- | Environment variables.
+  [(String, String)] ->
+  -- | SARIF output.
+  ByteString ->
+  -- | GitHub REST API call.
+  Maybe GHEndpoint
 toCall env sarifLog
   | Just repo <- repo',
     Just commitSha <- commitSha',
@@ -55,14 +78,16 @@ toCall env sarifLog
     workspace' = lookup "GITHUB_WORKSPACE" env
     encodedSarif = encodeBase64 $ compress sarifLog
 
+-- | Settings for calling the GitHub REST API.
 toSettings :: Maybe String -> GitHubSettings
 toSettings tok =
   GitHubSettings
     { token = AccessToken . fromString <$> tok,
-      userAgent = "https://github.com/haskell-actions/hlint-scan",
+      userAgent = "github.com/haskell-actions/hlint-scan",
       apiVersion = "v3"
     }
 
+-- | Converts the response from a GitHub REST API call to GitHub action outputs.
 toOutputs :: Value -> [String]
 toOutputs (Object response) = concatMap toOutput $ KeyMap.toList response
   where

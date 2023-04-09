@@ -26,8 +26,10 @@ limitations under the License.
 -- See [haskell-actions/hlint-scan](https://github.com/haskell-actions/hlint-scan)
 -- for more details.
 --
--- This specific module ties together sub-modules which are responsible
+-- This specific module ties together sub-modules, which are responsible
 -- for processing various stages of the analysis and upload.
+-- Basically, the sub-modules are responsible for the pure computations,
+-- and this module is responsible for tying them together with the 'IO' actions.
 module Scan (main) where
 
 import Arguments qualified
@@ -57,7 +59,19 @@ data Context = Context
     runnerDebug :: Bool
   }
 
-main :: [String] -> IO ()
+-- The work stages are basically the following:
+--
+--   1. 'main': Effectively the main program, and validates the program arguments.
+--   2. 'invoke': Invokes the HLint binary.
+--   3. 'annotate': Rewrites SARIF output with extra information.
+--   4. 'send': Sets up the GitHub REST API.
+--   5. 'call': Actually calls the GitHub REST API.
+
+-- | Effectively serves as the @main@ function for the scanning program.
+main ::
+  -- | The program arguments.
+  [String] ->
+  IO ()
 main args = case Arguments.validate args of
   Nothing -> invoke args
   Just errors -> die errors
