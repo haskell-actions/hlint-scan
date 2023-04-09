@@ -37,7 +37,6 @@ import Data.String (fromString)
 import Data.Text (Text, unpack)
 import GitHub.REST
 
-
 -- | Converts SARIF output into a GitHub REST API call.
 -- It will derive necessary parameters from the system environment.
 --
