@@ -26,14 +26,17 @@ normalize (Array vs) = Array $ fmap normalize vs
 normalize v = v
 
 normalizeObject :: Object -> Object
-normalizeObject m | Just v <- KeyMap.lookup "artifactLocation" m =
-                      KeyMap.insert "artifactLocation" (normalizeUri v) m
-                  | otherwise = m
+normalizeObject m
+  | Just v <- KeyMap.lookup "artifactLocation" m =
+      KeyMap.insert "artifactLocation" (normalizeUri v) m
+  | otherwise = m
 
 normalizeUri :: Value -> Value
-normalizeUri (Object m) | Just (String s) <- KeyMap.lookup "uri" m =
-                            Object $ KeyMap.insert "uri" (String $ strip s) m
+normalizeUri (Object m)
+  | Just (String s) <- KeyMap.lookup "uri" m =
+      Object $ KeyMap.insert "uri" (String $ strip s) m
   where
-    strip x | Just x' <- Text.stripPrefix "./" x = strip x'
-            | otherwise = x
+    strip x
+      | Just x' <- Text.stripPrefix "./" x = strip x'
+      | otherwise = x
 normalizeUri v = v
