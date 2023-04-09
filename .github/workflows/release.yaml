@@ -3,6 +3,7 @@ concurrency: build
 permissions: read-all
 
 on:
+  workflow_dispatch:
   release:
     types: [published]
 
