@@ -89,6 +89,7 @@ tests:
     dependencies:
     - hlint-scan
     - hspec
+    - QuickCheck
 
     # Work around https://github.com/sol/hpack/issues/303.
     when:

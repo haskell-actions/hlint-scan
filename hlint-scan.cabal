@@ -74,13 +74,16 @@ executable hlint-scan
 test-suite spec
   type: exitcode-stdio-1.0
   main-is: Spec.hs
+  other-modules:
+      ArgumentsSpec
   hs-source-dirs:
       test
   default-extensions:
       OverloadedStrings
   ghc-options: -Wall -Werror -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      base
+      QuickCheck
+    , base
     , hlint-scan
     , hspec
   default-language: GHC2021
