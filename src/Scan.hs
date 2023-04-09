@@ -32,8 +32,10 @@ module Scan (main) where
 
 import Arguments qualified
 import AutomationDetails qualified
+import Control.Monad (when)
 import Data.Aeson (Value, decode, encode)
 import Data.ByteString.Lazy
+import Data.Maybe (isJust)
 import Data.String
 import FilePath qualified
 import Fingerprint qualified
@@ -42,7 +44,7 @@ import System.Environment (getEnvironment)
 import System.Exit (ExitCode (ExitSuccess), die, exitWith)
 import System.Process (proc, readCreateProcessWithExitCode)
 import Upload (toCall, toOutputs, toSettings)
-import Prelude hiding (lookup, putStr)
+import Prelude hiding (putStr)
 
 -- | Context that will be carried through most of the work flow.
 --
@@ -51,7 +53,8 @@ import Prelude hiding (lookup, putStr)
 -- from the argument parsing stage to the API call to GitHub.
 data Context = Context
   { category :: Maybe String,
-    gitHubToken :: Maybe String
+    gitHubToken :: Maybe String,
+    runnerDebug :: Bool
   }
 
 main :: [String] -> IO ()
@@ -64,7 +67,15 @@ invoke args = do
   let (executable, flags, category, token) = Arguments.translate args
   (exitCode, out, err) <-
     readCreateProcessWithExitCode (proc executable flags) ""
-  let context = Context {category = category, gitHubToken = token}
+
+  env <- getEnvironment
+  let context =
+        Context
+          { category = category,
+            gitHubToken = token,
+            runnerDebug = isJust (lookup "RUNNER_DEBUG" env)
+          }
+
   case exitCode of
     ExitSuccess -> annotate context $ fromString out
     _ -> putStrLn err >> exitWith exitCode
@@ -74,6 +85,11 @@ annotate context output = do
   env <- getEnvironment
   let annotated = AutomationDetails.add env (category context) <$> value
   let annotated' = FilePath.normalize . Fingerprint.fill <$> annotated
+
+  when (runnerDebug context) $ do
+    putStrLn "rewritten output:"
+    print annotated'
+
   case annotated' of
     Nothing -> die $ "invalid encoding\n" <> show output <> "\n"
     Just output' -> send context $ encode output'

@@ -29,7 +29,7 @@ normalizeObject :: Object -> Object
 normalizeObject m
   | Just v <- KeyMap.lookup "artifactLocation" m =
       KeyMap.insert "artifactLocation" (normalizeUri v) m
-  | otherwise = m
+  | otherwise = KeyMap.map normalize m
 
 normalizeUri :: Value -> Value
 normalizeUri (Object m)
