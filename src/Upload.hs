@@ -67,6 +67,5 @@ toOutputs :: Value -> [String]
 toOutputs (Object response) = concatMap toOutput $ KeyMap.toList response
   where
     toOutput ("id", String sarifId) = ["sarif-id=" <> unpack sarifId]
-    toOutput ("url", String url) = ["sarif-url=" <> unpack url]
     toOutput _ = []
 toOutputs _ = []
