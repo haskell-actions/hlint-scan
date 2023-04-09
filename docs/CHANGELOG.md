@@ -10,6 +10,11 @@ the [Haskell Package Versioning Policy].
 
 ## Unreleased
 
+## 0.4.0 - 2023-04-09
+
+*   Strip "./" from relative file paths.
+    *   GitHub can now find files in repositories.
+
 ## 0.3.0 - 2023-04-06
 
 *   Use prebuilt Docker image for the Docker composite action.
