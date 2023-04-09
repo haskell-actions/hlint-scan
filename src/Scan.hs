@@ -76,6 +76,11 @@ invoke args = do
             runnerDebug = isJust (lookup "RUNNER_DEBUG" env)
           }
 
+  when (runnerDebug context) $ do
+    putStrLn "Output from hlint:"
+    putStrLn out
+    putStrLn ""
+
   case exitCode of
     ExitSuccess -> annotate context $ fromString out
     _ -> putStrLn err >> exitWith exitCode
@@ -89,6 +94,7 @@ annotate context output = do
   when (runnerDebug context) $ do
     putStrLn "rewritten output:"
     print annotated'
+    putStrLn ""
 
   case annotated' of
     Nothing -> die $ "invalid encoding\n" <> show output <> "\n"
@@ -103,7 +109,12 @@ send context output = do
   let endpoint' = toCall env output
   case endpoint' of
     Just endpoint -> call settings endpoint
-    _ -> die "not all necessary environment variables available"
+    _ -> do
+      when (runnerDebug context) $ do
+        putStrLn "environment variables"
+        print env
+        putStrLn ""
+      die "not all necessary environment variables available"
 
 call :: GitHubSettings -> GHEndpoint -> IO ()
 call settings endpoint =
