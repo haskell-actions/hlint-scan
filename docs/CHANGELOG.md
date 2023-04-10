@@ -10,6 +10,10 @@ the [Haskell Package Versioning Policy].
 
 ## Unreleased
 
+## 0.4.1 - 2023-04-10
+
+*   Added automated testing.
+
 ## 0.4.0 - 2023-04-09
 
 *   Strip "./" from relative file paths.
