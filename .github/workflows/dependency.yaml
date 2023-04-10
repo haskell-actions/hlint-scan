@@ -1,7 +1,5 @@
 name: Dependency Review
-on: [pull_request]
-name: 'Dependency Review'
-permissions:read-all
+permissions: read-all
 on: [pull_request]
 
 jobs:
