@@ -51,9 +51,9 @@ spec = do
             [ method <$> call `shouldBe` Just POST,
               endpoint <$> call `shouldBe` Just "/repos/:repo/code-scanning/sarifs",
               -- KeyValue is not instance of Eq
-              show . endpointVals <$> call `shouldBe` Just (show $ ["repo" := repo]),
+              show . endpointVals <$> call `shouldBe` Just (show ["repo" := repo]),
               extractSARIF . ghData <$> call
-                `shouldBe` Just (toStrict $ encodeBase64 $ compress $ output)
+                `shouldBe` Just (toStrict $ encodeBase64 $ compress output)
             ]
 
   describe "toSettings" $ do
@@ -76,4 +76,4 @@ spec = do
         `shouldBe` ["sarif-id=" <> x]
 
 extractSARIF :: GitHubData -> Text
-extractSARIF x = (toJSON x) .: "sarif"
+extractSARIF x = toJSON x .: "sarif"
