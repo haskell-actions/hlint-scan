@@ -43,14 +43,6 @@ You only need to set them if the defaults do not work for your situation.
 `sarif-id`
 :   The ID of the uploaded SARIF file.
 
-### Note
-
-This does not fail the workflow when HLint finds any code which could be improved.
-In other words, this action is not intended to be used as a status check.
-Instead, its goal is to file [GitHub code scanning] alerts.
-To use HLint for status checks, e.g., during pushes or pull requests,
-see [haskell/actions/hlint-run] instead.
-
 ## Code of conduct
 
 Be nice; see [`CODE_OF_CONDUCT.md`](docs/CODE_OF_CONDUCT.md) for details.

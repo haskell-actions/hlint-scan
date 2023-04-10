@@ -93,21 +93,32 @@ translate ::
   -- * Category to upload with.
   -- * GitHub access token.
   (FilePath, [String], Maybe String, Maybe String)
-translate args = (executable', path' : requiredFlags, category, token)
+translate args = (executable', path' : requiredFlags, category', token')
   where
     argsMap = map toTuple args
+
     executable = lookup "binary" argsMap
     executable'
       | Nothing <- executable = "/hlint"
       | Just "" <- executable = "/hlint"
       | Just s <- executable = s
+
     path = lookup "path" argsMap
     path'
       | Nothing <- path = "."
       | Just "" <- path = "."
       | Just s <- path = s
+
     category = lookup "category" argsMap
+    category'
+      | Just "" <- category = Nothing
+      | otherwise = category
+
     token = lookup "token" argsMap
+    token'
+      | Just "" <- token = Nothing
+      | otherwise = token
+
     requiredFlags = ["-j", "--sarif", "--no-exit-code"]
 
 -- | Converts a program argument of the form @keyword=value@

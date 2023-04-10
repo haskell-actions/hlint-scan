@@ -89,6 +89,14 @@ tests:
     dependencies:
     - hlint-scan
     - hspec
+    - QuickCheck
+    - aeson
+    - base64
+    - github-rest
+    - quickcheck-instances
+    - text
+    - vector
+    - zlib
 
     # Work around https://github.com/sol/hpack/issues/303.
     when:
