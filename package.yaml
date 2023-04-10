@@ -90,6 +90,9 @@ tests:
     - hlint-scan
     - hspec
     - QuickCheck
+    - aeson
+    - text
+    - vector
 
     # Work around https://github.com/sol/hpack/issues/303.
     when:

@@ -76,6 +76,7 @@ test-suite spec
   main-is: Spec.hs
   other-modules:
       ArgumentsSpec
+      AutomationDetailsSpec
   hs-source-dirs:
       test
   default-extensions:
@@ -83,7 +84,10 @@ test-suite spec
   ghc-options: -Wall -Werror -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       QuickCheck
+    , aeson
     , base
     , hlint-scan
     , hspec
+    , text
+    , vector
   default-language: GHC2021
