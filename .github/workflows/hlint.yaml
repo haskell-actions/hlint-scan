@@ -3,6 +3,8 @@ permissions: read-all
 
 on:
   push:
+  schedule:
+    - cron: '5 4 14 * *'
 
 jobs:
   hlint:
