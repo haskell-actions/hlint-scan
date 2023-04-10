@@ -40,5 +40,6 @@ When updating the version, these files should be updated accordingly:
 *   [`action.yaml`](../action.yaml)
 
 Once that is done, a new [release] should be done with the new version number.
+After the release actions are complete, the tag for the major version should be updated.
 
 [release]: https://github.com/haskell-actions/hlint-scan/releases
