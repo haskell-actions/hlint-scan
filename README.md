@@ -45,6 +45,14 @@ You only need to set them if the defaults do not work for your situation.
 `sarif-id`
 :   The ID of the uploaded SARIF file.
 
+## Status
+
+[![Build](https://github.com/haskell-actions/hlint-scan/actions/workflows/build.yaml/badge.svg)](https://github.com/haskell-actions/hlint-scan/actions/workflows/build.yaml)
+[![HLint](https://github.com/haskell-actions/hlint-scan/actions/workflows/hlint.yaml/badge.svg)](https://github.com/haskell-actions/hlint-scan/actions/workflows/hlint.yaml)
+[![Ormolu](https://github.com/haskell-actions/hlint-scan/actions/workflows/ormolu.yaml/badge.svg)](https://github.com/haskell-actions/hlint-scan/actions/workflows/ormolu.yaml)
+[![OpenSSF
+Scorecard](https://api.securityscorecards.dev/projects/github.com/haskell-actions/hlint-scan/badge)](https://api.securityscorecards.dev/projects/github.com/haskell-actions/hlint-scan)
+
 ## Code of conduct
 
 Be nice; see [`CODE_OF_CONDUCT.md`](docs/CODE_OF_CONDUCT.md) for details.
