@@ -41,9 +41,11 @@ language: GHC2021
 default-extensions:
 - OverloadedStrings
 
+
 ghc-options:
 - -Wall
 - -Werror
+- -O2
 
 library:
   source-dirs: src
