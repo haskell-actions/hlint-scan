@@ -1,4 +1,5 @@
 *~
+*.cabal
 .stack-work/
 .vscode/
 stack.yaml.lock
