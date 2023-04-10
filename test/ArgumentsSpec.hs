@@ -22,7 +22,7 @@ limitations under the License.
 module ArgumentsSpec (spec) where
 
 import Arguments
-import Data.Maybe (isJust)
+import Data.Maybe (isJust, isNothing)
 import Test.Hspec
 import Test.Hspec.QuickCheck
 import Test.QuickCheck
@@ -43,8 +43,10 @@ spec = do
         `shouldBe` Nothing
 
     prop "argument must have '=' character" $ \s ->
-      '=' `notElem` s ==>
-        validate [s] `shouldSatisfy` isJust
+      '='
+        `notElem` s
+        ==> validate [s]
+        `shouldSatisfy` isJust
 
     prop "argument must not have duplicate keyword" $ \key v v' ->
       '=' `notElem` key ==> \keyValues ->
@@ -54,6 +56,70 @@ spec = do
               validate args `shouldSatisfy` isJust
 
     prop "argument must have explicitly allowed keyword" $ \key v ->
-      '=' `notElem` key ==>
-        key `notElem` ["binary", "path", "category", "token"] ==>
-          validate [key <> "=" <> v] `shouldSatisfy` isJust
+      '='
+        `notElem` key
+        ==> key
+        `notElem` ["binary", "path", "category", "token"]
+        ==> validate [key <> "=" <> v]
+        `shouldSatisfy` isJust
+
+  describe "translate" $ do
+    it "translates specific arguments" $
+      translate
+        [ "binary=/hlint",
+          "path=.",
+          "category=code-quality",
+          "token=XYZ123"
+        ]
+        `shouldBe` ( "/hlint",
+                     [".", "-j", "--sarif", "--no-exit-code"],
+                     Just "code-quality",
+                     Just "XYZ123"
+                   )
+
+    prop "translates missing category to Nothing" $
+      translate [] `shouldSatisfy` \(_, _, category, _) -> isNothing category
+
+    prop "translates missing token to Nothing" $
+      translate [] `shouldSatisfy` \(_, _, _, token) -> isNothing token
+
+    prop "translates empty binary to default binary" $
+      translate ["binary="]
+        `shouldSatisfy` \(binary, _, _, _) -> binary == "/hlint"
+
+    prop "translates empty path to default path" $
+      translate ["binary="]
+        `shouldSatisfy` \(_, args, _, _) -> args == [".", "-j", "--sarif", "--no-exit-code"]
+
+    prop "translates empty category to Nothing" $
+      translate ["category="]
+        `shouldSatisfy` \(_, _, category, _) -> isNothing category
+
+    prop "translates empty token to Nothing" $
+      translate ["token="]
+        `shouldSatisfy` \(_, _, token, _) -> isNothing token
+
+    prop "translates general arguments" $ \binary path category token ->
+      binary
+        /= ""
+        && path
+        /= ""
+        && category
+        /= ""
+        && token
+        /= ""
+        ==> forAll
+          ( shuffle
+              [ "binary=" <> binary,
+                "path=" <> path,
+                "category=" <> category,
+                "token=" <> token
+              ]
+          )
+        $ \args ->
+          translate args
+            `shouldBe` ( binary,
+                         [path, "-j", "--sarif", "--no-exit-code"],
+                         Just category,
+                         Just token
+                       )
