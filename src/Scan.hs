@@ -41,6 +41,7 @@ import Data.Maybe (isJust)
 import Data.String
 import FilePath qualified
 import Fingerprint qualified
+import Format (formatMessages)
 import GitHub.REST
 import System.Environment (getEnvironment)
 import System.Exit (ExitCode (ExitSuccess), die, exitWith)
@@ -103,7 +104,7 @@ annotate :: Context -> ByteString -> IO ()
 annotate context output = do
   env <- getEnvironment
   let annotated = AutomationDetails.add env (category context) <$> value
-  let annotated' = FilePath.normalize . Fingerprint.fill <$> annotated
+  let annotated' = formatMessages . FilePath.normalize . Fingerprint.fill <$> annotated
 
   when (runnerDebug context) $ do
     putStrLn "rewritten output:"
