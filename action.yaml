@@ -23,6 +23,10 @@ inputs:
     description: Path of file or directory that HLint will be told to scan.
     required: false
     default: .
+  hints:
+    # Change description when this is released.
+    description: Path for HLint configuration file.  Not available yet.
+    required: false
   category:
     description: String used by GitHub code scanning for matching the analyses.
     required: false
@@ -39,6 +43,7 @@ outputs:
 runs:
   using: docker
   image: Dockerfile # docker://ghcr.io/haskell-actions/hlint-scan:main
+  image: docker://ghcr.io/haskell-actions/hlint-scan:main
   args:
     - binary=${{ inputs.binary }}
     - path=${{ inputs.path }}
