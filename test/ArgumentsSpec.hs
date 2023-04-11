@@ -44,10 +44,8 @@ spec = do
         `shouldBe` Nothing
 
     prop "argument must have '=' character" $ \s ->
-      '='
-        `notElem` s
-        ==> validate [s]
-          `shouldSatisfy` isJust
+      '=' `notElem` s ==>
+        validate [s] `shouldSatisfy` isJust
 
     prop "argument must not have duplicate keyword" $ \key v v' ->
       '=' `notElem` key ==> \keyValues ->
@@ -57,12 +55,10 @@ spec = do
               validate args `shouldSatisfy` isJust
 
     prop "argument must have explicitly allowed keyword" $ \key v ->
-      '='
-        `notElem` key
-        ==> key
-          `notElem` ["binary", "path", "hints", "category", "token"]
-        ==> validate [key <> "=" <> v]
-          `shouldSatisfy` isJust
+      '=' `notElem` key ==>
+        key `notElem` ["binary", "path", "hints", "category", "token"] ==>
+          validate [key <> "=" <> v]
+            `shouldSatisfy` isJust
 
   describe "translate" $ do
     it "translates specific arguments" $
@@ -106,11 +102,7 @@ spec = do
         `shouldSatisfy` \(_, _, token, _) -> isNothing token
 
     prop "translates general arguments" $ \binary path hints category token ->
-      binary /= ""
-        && path /= ""
-        && hints /= ""
-        && category /= ""
-        && token /= ""
+      binary /= "" && path /= "" && hints /= "" && category /= "" && token /= ""
         ==> forAll
           ( shuffle
               [ "binary=" <> binary,
