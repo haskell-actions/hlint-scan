@@ -35,6 +35,13 @@ You only need to set them if the defaults do not work for your situation.
 `path`
 :   Path of file or directory that HLint will be told to scan.
 
+<!--
+Uncomment this when this is ready to be released:
+
+`hints`
+:   Path for HLint configuration file.
+-->
+
 `category`
 :   String used by GitHub code scanning for matching the analyses.
 

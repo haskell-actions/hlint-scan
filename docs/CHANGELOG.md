@@ -10,6 +10,8 @@ the [Haskell Package Versioning Policy].
 
 ## Unreleased
 
+*   Support `hints` input for explicitly specifying the HLint configuration file.
+
 ## 0.4.1 - 2023-04-10
 
 *   Added automated testing.

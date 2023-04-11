@@ -37,16 +37,15 @@ spec = do
       validate
         [ "binary=/hlint",
           "path=.",
+          "hints=.hlint.yaml",
           "category=code-quality",
           "token=AB12CD"
         ]
         `shouldBe` Nothing
 
     prop "argument must have '=' character" $ \s ->
-      '='
-        `notElem` s
-        ==> validate [s]
-        `shouldSatisfy` isJust
+      '=' `notElem` s ==>
+        validate [s] `shouldSatisfy` isJust
 
     prop "argument must not have duplicate keyword" $ \key v v' ->
       '=' `notElem` key ==> \keyValues ->
@@ -56,23 +55,22 @@ spec = do
               validate args `shouldSatisfy` isJust
 
     prop "argument must have explicitly allowed keyword" $ \key v ->
-      '='
-        `notElem` key
-        ==> key
-        `notElem` ["binary", "path", "category", "token"]
-        ==> validate [key <> "=" <> v]
-        `shouldSatisfy` isJust
+      '=' `notElem` key ==>
+        key `notElem` ["binary", "path", "hints", "category", "token"] ==>
+          validate [key <> "=" <> v]
+            `shouldSatisfy` isJust
 
   describe "translate" $ do
     it "translates specific arguments" $
       translate
         [ "binary=/hlint",
           "path=.",
+          "hints=.hlint.yaml",
           "category=code-quality",
           "token=XYZ123"
         ]
         `shouldBe` ( "/hlint",
-                     [".", "-j", "--sarif", "--no-exit-code"],
+                     [".", "--hint=.hlint.yaml", "-j", "--sarif", "--no-exit-code"],
                      Just "code-quality",
                      Just "XYZ123"
                    )
@@ -88,7 +86,11 @@ spec = do
         `shouldSatisfy` \(binary, _, _, _) -> binary == "/hlint"
 
     prop "translates empty path to default path" $
-      translate ["binary="]
+      translate ["path="]
+        `shouldSatisfy` \(_, args, _, _) -> args == [".", "-j", "--sarif", "--no-exit-code"]
+
+    prop "translates empty hints to omitted hints file flag" $
+      translate ["hints="]
         `shouldSatisfy` \(_, args, _, _) -> args == [".", "-j", "--sarif", "--no-exit-code"]
 
     prop "translates empty category to Nothing" $
@@ -99,19 +101,13 @@ spec = do
       translate ["token="]
         `shouldSatisfy` \(_, _, token, _) -> isNothing token
 
-    prop "translates general arguments" $ \binary path category token ->
-      binary
-        /= ""
-        && path
-        /= ""
-        && category
-        /= ""
-        && token
-        /= ""
+    prop "translates general arguments" $ \binary path hints category token ->
+      binary /= "" && path /= "" && hints /= "" && category /= "" && token /= ""
         ==> forAll
           ( shuffle
               [ "binary=" <> binary,
                 "path=" <> path,
+                "hints=" <> hints,
                 "category=" <> category,
                 "token=" <> token
               ]
@@ -119,7 +115,7 @@ spec = do
         $ \args ->
           translate args
             `shouldBe` ( binary,
-                         [path, "-j", "--sarif", "--no-exit-code"],
+                         [path, "--hint=" <> hints, "-j", "--sarif", "--no-exit-code"],
                          Just category,
                          Just token
                        )

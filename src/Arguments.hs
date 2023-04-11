@@ -76,7 +76,7 @@ validate args
 -- | List of argument keywords which are allowed.
 -- In other words, these are arguments we know what to do with.
 allowedArgs :: [String]
-allowedArgs = ["binary", "path", "category", "token"]
+allowedArgs = ["binary", "path", "hints", "category", "token"]
 
 -- | Translate program arguments to arguments for HLint.
 -- Also derives the category and access token from the arguments.
@@ -93,7 +93,7 @@ translate ::
   -- * Category to upload with.
   -- * GitHub access token.
   (FilePath, [String], Maybe String, Maybe String)
-translate args = (executable', path' : requiredFlags, category', token')
+translate args = (executable', path' : hints' ++ requiredFlags, category', token')
   where
     argsMap = map toTuple args
 
@@ -108,6 +108,12 @@ translate args = (executable', path' : requiredFlags, category', token')
       | Nothing <- path = "."
       | Just "" <- path = "."
       | Just s <- path = s
+
+    hints = lookup "hints" argsMap
+    hints'
+      | Nothing <- hints = []
+      | Just "" <- hints = []
+      | Just s <- hints = ["--hint=" <> s]
 
     category = lookup "category" argsMap
     category'
