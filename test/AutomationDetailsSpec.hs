@@ -40,7 +40,7 @@ spec = do
                 singleton "automationDetails" $
                   Object $
                     singleton "id" $
-                      String (fromString category <> "/" <> fromString runId)
+                      String (fromString category <> "/hlint/" <> fromString runId)
           )
 
     prop "adds empty category and empty run ID when not available" $
@@ -51,7 +51,7 @@ spec = do
                 singleton "automationDetails" $
                   Object $
                     singleton "id" $
-                      String "/"
+                      String "hlint/"
           )
   where
     emptySarifLog = Object $ singleton "runs" $ Array $ Vector.singleton emptyObject
