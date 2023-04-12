@@ -47,32 +47,44 @@ import Data.Text qualified as Text
 -- | Format text messages in result objects to be better readable on GitHub.
 formatMessages :: Value -> Value
 formatMessages (Object v) = Object $ mapWithKey formatRuns v
+  where
+    formatRuns "runs" (Array us) = Array $ fmap formatRun us
+    formatRuns _ u = u
+
+    formatRun (Object u) = Object $ mapWithKey formatResults u
+    formatRun u = u
+
+    formatResults "results" (Array us) = Array $ fmap formatResult us
+    formatResults _ u = u
+
+    formatResult (Object u) = Object $ mapWithKey formatMessage u
+    formatResult u = u
+
+    formatMessage "message" (Object u) = Object $ mapWithKey formatText u
+    formatMessage _ u = u
 formatMessages v = v
 
-formatRuns :: Key -> Value -> Value
-formatRuns "runs" (Array vs) = Array $ fmap formatRun vs
-formatRuns _ v = v
-
-formatRun :: Value -> Value
-formatRun (Object v) = Object $ mapWithKey formatResults v
-formatRun v = v
-
-formatResults :: Key -> Value -> Value
-formatResults "results" (Array vs) = Array $ fmap formatResult vs
-formatResults _ v = v
-
-formatResult :: Value -> Value
-formatResult (Object v) = Object $ mapWithKey formatMessage v
-formatResult v = v
-
-formatMessage :: Key -> Value -> Value
-formatMessage "message" (Object v) = Object $ mapWithKey formatText v
-formatMessage _ v = v
-
+-- | Formats the text in a @message@ object better for GitHub.
+--
+-- Basically rewrites the text so that GitHub does not turn the message
+-- into mindlessly left-aligned lines of text.  The specific rewriting
+-- was derived by trial and error; there appears to be no documentation
+-- as to what parts of Markdown syntax are effective in this context,
+-- unfortunately.
 formatText :: Key -> Value -> Value
-formatText "text" (String s) = String s'
+formatText "text" (String s) = String s''
   where
-    l = Text.lines s
-    s' | x:xs <- l = Text.unlines $ x : "<pre>" : xs ++ ["</pre>"]
-       | [] <- l = s
+    s' = Text.unlines $ format $ Text.lines s
+    -- Replace all spaces with @&nbsp;@ so that GitHub does not collapse them.
+    s'' = Text.replace " " "&nbsp;" s'
+    -- Put an extra newline between separate pieces of content.
+    -- I.e., between the general message, the code found,
+    -- the suggested replacements, and any notes.
+    -- The extra line is inserted as "  " instead of ""
+    -- because GitHub would otherwise collapse them.
+    format (x : xs@(x' : _))
+      | not (Text.isPrefixOf " " x') = x : "  " : format xs
+      | otherwise = x : format xs
+    format (x : xs) = x : format xs
+    format [] = []
 formatText _ v = v
