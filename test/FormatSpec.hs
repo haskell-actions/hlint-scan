@@ -65,7 +65,10 @@ spec = do
     prop "formats messages in general" $
       forAll (listOf chooseSection) $ \sections ->
         let message = mconcat sections
-            message' = Text.replace " " "&nbsp;" $ Text.intercalate "  \n" sections
+            message' =
+              Text.replace "\\" "&bsol;" $
+                Text.replace " " "&nbsp;" $
+                  Text.intercalate "  \n" sections
          in counterexample (show message) $
               counterexample (show message') $
                 formatMessages (objectWithMessage message) `shouldBe` objectWithMessage message'

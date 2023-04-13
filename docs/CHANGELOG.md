@@ -10,6 +10,8 @@ the [Haskell Package Versioning Policy].
 
 ## Unreleased
 
+*   Escape backslashes in messages.
+
 ## 0.9.0 - 2023-04-14
 
 *   Support `hints` input for explicitly specifying the HLint configuration file.

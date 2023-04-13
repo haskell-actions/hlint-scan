@@ -76,7 +76,9 @@ formatText "text" (String s) = String s''
   where
     s' = Text.unlines $ format $ Text.lines s
     -- Replace all spaces with @&nbsp;@ so that GitHub does not collapse them.
-    s'' = Text.replace " " "&nbsp;" s'
+    -- Also replace backslahes with @&bsol;@ so that
+    -- they don't form an accidental escape sequence.
+    s'' = Text.replace "\\" "&bsol;" $ Text.replace " " "&nbsp;" s'
     -- Put an extra newline between separate pieces of content.
     -- I.e., between the general message, the code found,
     -- the suggested replacements, and any notes.
