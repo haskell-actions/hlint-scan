@@ -15,7 +15,7 @@ limitations under the License.
 -}
 
 -- |
--- Description: Format messages for GitHub
+-- Description: Format messages for GitHub.
 -- Copyright: Copyright 2023 Google LLC
 -- License: Apache-2.0
 -- Maintainer: chungyc@google.com

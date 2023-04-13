@@ -43,6 +43,7 @@ import FilePath qualified
 import Fingerprint qualified
 import Format (formatMessages)
 import GitHub.REST
+import Rules qualified
 import System.Environment (getEnvironment)
 import System.Exit (ExitCode (ExitSuccess), die, exitWith)
 import System.Process (proc, readCreateProcessWithExitCode)
@@ -103,15 +104,20 @@ invoke args = do
 annotate :: Context -> ByteString -> IO ()
 annotate context output = do
   env <- getEnvironment
-  let annotated = AutomationDetails.add env (category context) <$> value
-  let annotated' = formatMessages . FilePath.normalize . Fingerprint.fill <$> annotated
+  let annotated =
+        formatMessages
+          . FilePath.normalize
+          . Fingerprint.fill
+          . Rules.add
+          . AutomationDetails.add env (category context)
+          <$> value
 
   when (runnerDebug context) $ do
     putStrLn "rewritten output:"
-    print annotated'
+    print annotated
     putStrLn ""
 
-  case annotated' of
+  case annotated of
     Nothing -> die $ "invalid encoding\n" <> show output <> "\n"
     Just output' -> send context $ encode output'
   where
