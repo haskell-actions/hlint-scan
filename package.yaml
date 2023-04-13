@@ -53,6 +53,7 @@ library:
   - aeson
   - base64
   - bytestring
+  - containers
   - filepath
   - github-rest
   - process
@@ -94,6 +95,7 @@ tests:
     - QuickCheck
     - aeson
     - base64
+    - bytestring
     - github-rest
     - quickcheck-instances
     - text
