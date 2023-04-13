@@ -24,8 +24,7 @@ inputs:
     required: false
     default: .
   hints:
-    # Change description when this is released.
-    description: Path for HLint configuration file.  Not available yet.
+    description: Path for HLint configuration file.
     required: false
   category:
     description: String used by GitHub code scanning for matching the analyses.
@@ -42,7 +41,7 @@ outputs:
 
 runs:
   using: docker
-  image: docker://ghcr.io/haskell-actions/hlint-scan:main
+  image: docker://ghcr.io/haskell-actions/hlint-scan:v0.9.0
   args:
     - binary=${{ inputs.binary }}
     - path=${{ inputs.path }}
