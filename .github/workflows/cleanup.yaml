@@ -1,0 +1,18 @@
+name: Cleanup
+concurrency: cleanup
+permissions: read-all
+
+on:
+  workflow_dispatch:
+  schedule:
+  - cron: '23 4 * * 4'
+
+jobs:
+  packages:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Delete Package Versions
+      uses: actions/delete-package-versions@v4
+      with:
+        package-type: container
+        delete-only-untagged-versions: true
