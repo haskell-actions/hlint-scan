@@ -10,6 +10,7 @@ the [Haskell Package Versioning Policy].
 
 ## Unreleased
 
+*   Uses much smaller Docker image size.
 *   Escape backslashes in messages.
 *   Support scanning multiple paths.
 
