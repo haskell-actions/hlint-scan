@@ -72,13 +72,10 @@ formatMessages v = v
 -- as to what parts of Markdown syntax are effective in this context,
 -- unfortunately.
 formatText :: Key -> Value -> Value
-formatText "text" (String s) = String s''
+formatText "text" (String s) = String s'
   where
-    s' = Text.unlines $ format $ Text.lines s
-    -- Replace all spaces with @&nbsp;@ so that GitHub does not collapse them.
-    -- Also replace backslahes with @&bsol;@ so that
-    -- they don't form an accidental escape sequence.
-    s'' = Text.replace "\\" "&bsol;" $ Text.replace " " "&nbsp;" s'
+    s' = Text.unlines $ map escapeCharacters $ format $ Text.lines s
+
     -- Put an extra newline between separate pieces of content.
     -- I.e., between the general message, the code found,
     -- the suggested replacements, and any notes.
@@ -89,4 +86,12 @@ formatText "text" (String s) = String s''
       | otherwise = x : format xs
     format (x : xs) = x : format xs
     format [] = []
+
+    -- Replace all spaces with @&nbsp;@ so that GitHub does not collapse them.
+    -- Also replace backslashes with @&bsol;@ so that
+    -- they don't form an accidental escape sequence.
+    escapeCharacters =
+      Text.replace " " "&nbsp;"
+        . Text.replace "\\" "&bsol;"
+        . Text.replace "&" "&amp;"
 formatText _ v = v

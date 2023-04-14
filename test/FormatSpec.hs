@@ -40,25 +40,25 @@ spec = do
       formatMessages
         ( objectWithMessage $
             Text.unlines
-              [ "Bad.hs:16:9-20: Warning: Use /=",
+              [ "Bad.hs:3:30-42: Suggestion: Avoid lambda using `infix`",
                 "Found:",
-                "  not (a == b)",
+                "  (\\ x -> x + 1)",
                 "Perhaps:",
-                "  a /= b",
-                "Note: incorrect if either value is NaN"
+                "  (+ 1)",
+                "Note: Also x & x is trivial"
               ]
         )
         `shouldBe` objectWithMessage
           ( Text.unlines
-              [ "Bad.hs:16:9-20:&nbsp;Warning:&nbsp;Use&nbsp;/=",
+              [ "Bad.hs:3:30-42:&nbsp;Suggestion:&nbsp;Avoid&nbsp;lambda&nbsp;using&nbsp;`infix`",
                 "&nbsp;&nbsp;",
                 "Found:",
-                "&nbsp;&nbsp;not&nbsp;(a&nbsp;==&nbsp;b)",
+                "&nbsp;&nbsp;(&bsol;&nbsp;x&nbsp;->&nbsp;x&nbsp;+&nbsp;1)",
                 "&nbsp;&nbsp;",
                 "Perhaps:",
-                "&nbsp;&nbsp;a&nbsp;/=&nbsp;b",
+                "&nbsp;&nbsp;(+&nbsp;1)",
                 "&nbsp;&nbsp;",
-                "Note:&nbsp;incorrect&nbsp;if&nbsp;either&nbsp;value&nbsp;is&nbsp;NaN"
+                "Note:&nbsp;Also&nbsp;x&nbsp;&amp;&nbsp;x&nbsp;is&nbsp;trivial"
               ]
           )
 
@@ -66,9 +66,10 @@ spec = do
       forAll (listOf chooseSection) $ \sections ->
         let message = mconcat sections
             message' =
-              Text.replace "\\" "&bsol;" $
-                Text.replace " " "&nbsp;" $
-                  Text.intercalate "  \n" sections
+              Text.replace " " "&nbsp;" $
+                Text.replace "\\" "&bsol;" $
+                  Text.replace "&" "&amp;" $
+                    Text.intercalate "  \n" sections
          in counterexample (show message) $
               counterexample (show message') $
                 formatMessages (objectWithMessage message) `shouldBe` objectWithMessage message'
