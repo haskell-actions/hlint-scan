@@ -92,6 +92,6 @@ formatText "text" (String s) = String s'
     -- they don't form an accidental escape sequence.
     escapeCharacters =
       Text.replace " " "&nbsp;"
-        . Text.replace "\\" "&bsol;"
+        . Text.replace "\\" "\\\\"
         . Text.replace "&" "&amp;"
 formatText _ v = v

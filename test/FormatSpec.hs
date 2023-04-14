@@ -53,7 +53,7 @@ spec = do
               [ "Bad.hs:3:30-42:&nbsp;Suggestion:&nbsp;Avoid&nbsp;lambda&nbsp;using&nbsp;`infix`",
                 "&nbsp;&nbsp;",
                 "Found:",
-                "&nbsp;&nbsp;(&bsol;&nbsp;x&nbsp;->&nbsp;x&nbsp;+&nbsp;1)",
+                "&nbsp;&nbsp;(\\\\&nbsp;x&nbsp;->&nbsp;x&nbsp;+&nbsp;1)",
                 "&nbsp;&nbsp;",
                 "Perhaps:",
                 "&nbsp;&nbsp;(+&nbsp;1)",
@@ -67,7 +67,7 @@ spec = do
         let message = mconcat sections
             message' =
               Text.replace " " "&nbsp;" $
-                Text.replace "\\" "&bsol;" $
+                Text.replace "\\" "\\\\" $
                   Text.replace "&" "&amp;" $
                     Text.intercalate "  \n" sections
          in counterexample (show message) $
