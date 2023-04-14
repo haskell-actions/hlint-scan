@@ -36,10 +36,10 @@ You only need to set them if the defaults do not work for your situation.
 :   Path of file or directory that HLint will be told to scan.
 
 `hints`
-:   Path for HLint configuration file.
+:   Path for [HLint configuration file].
 
 `category`
-:   String used by GitHub code scanning for matching the analyses.
+:   [Category] distinguishing multiple analyses at the same commit.
 
 ### Outputs
 
@@ -73,9 +73,13 @@ and Google specifically disclaims all warranties as to its quality,
 merchantability, or fitness for a particular purpose.
 
 
+[Category]: https://docs.github.com/en/code-security/code-scanning/automatically-scanning-your-code-for-vulnerabilities-and-errors/customizing-code-scanning#configuring-a-category-for-the-analysis
+
 [GitHub code scanning]: https://docs.github.com/en/code-security/code-scanning/automatically-scanning-your-code-for-vulnerabilities-and-errors/about-code-scanning
 
 [HLint]: https://github.com/ndmitchell/hlint
+
+[HLint configuration file]: https://github.com/ndmitchell/hlint#customizing-the-hints
 
 [haskell/actions/hlint-setup]: https://github.com/haskell/actions/tree/main/hlint-setup
 
