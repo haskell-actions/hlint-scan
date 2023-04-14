@@ -29,23 +29,28 @@ jobs:
 None of the inputs are required.
 You only need to set them if the defaults do not work for your situation.
 
-`binary`
-:   Path to the hlint binary.
+#### `binary`
 
-`path`
-:   Path of file or directory that HLint will be told to scan.
-    Multiple paths can be specified, delimited by whitespace.
+Path to the hlint binary.
 
-`hints`
-:   Path for [HLint configuration file].
+#### `path`
 
-`category`
-:   [Category] distinguishing multiple analyses at the same commit.
+Path of file or directory that HLint will be told to scan.
+Multiple paths can be specified, delimited by whitespace.
+
+#### `hints`
+
+Path for [HLint configuration file].
+
+#### `category`
+
+[Category] distinguishing multiple analyses at the same commit.
 
 ### Outputs
 
-`sarif-id`
-:   The ID of the uploaded SARIF file.
+#### `sarif-id`
+
+The ID of the uploaded SARIF file.
 
 ## Status
 
