@@ -34,6 +34,7 @@ You only need to set them if the defaults do not work for your situation.
 
 `path`
 :   Path of file or directory that HLint will be told to scan.
+    Multiple paths can be specified, delimited by whitespace.
 
 `hints`
 :   Path for [HLint configuration file].

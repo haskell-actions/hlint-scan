@@ -11,6 +11,7 @@ the [Haskell Package Versioning Policy].
 ## Unreleased
 
 *   Escape backslashes in messages.
+*   Support scanning multiple paths.
 
 ## 0.9.0 - 2023-04-14
 

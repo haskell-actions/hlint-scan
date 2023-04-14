@@ -22,6 +22,7 @@ copyright:           "Copyright 2023 Google LLC"
 
 extra-source-files:
 - action.yaml
+- Dockerfile
 - LICENSE
 - README.md
 - docs/**
@@ -40,7 +41,6 @@ language: GHC2021
 
 default-extensions:
 - OverloadedStrings
-
 
 ghc-options:
 - -Wall

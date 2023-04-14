@@ -54,7 +54,7 @@ validate args
   | [] <- errors = Nothing
   | otherwise = Just $ unlines errors
   where
-    errors = notPairErrors ++ duplicateErrors ++ notAllowedErrors
+    errors = notPairErrors ++ duplicateErrors ++ notAllowedErrors ++ badPathErrors
 
     -- Find arguments not in the form @keyword=value@.
     notPairErrors = mapMaybe forString args
@@ -72,6 +72,16 @@ validate args
     notAllowed key
       | key `elem` allowedArgs = Nothing
       | otherwise = Just $ "\"" <> key <> "\" argument is not allowed"
+
+    -- Forbid paths which start with a '-' character,
+    -- which could be confused as a flag.
+    badPathErrors
+      | Just flags <- flagPaths = map ("path may not start with '-': " <>) flags
+      | otherwise = []
+      where
+        flagPaths = filter isFlag . words <$> lookup "path" (map toTuple args)
+        isFlag ('-' : _) = True
+        isFlag _ = False
 
 -- | List of argument keywords which are allowed.
 -- In other words, these are arguments we know what to do with.
@@ -93,7 +103,7 @@ translate ::
   -- * Category to upload with.
   -- * GitHub access token.
   (FilePath, [String], Maybe String, Maybe String)
-translate args = (executable', path' : hints' ++ requiredFlags, category', token')
+translate args = (executable', path' ++ hints' ++ requiredFlags, category', token')
   where
     argsMap = map toTuple args
 
@@ -105,9 +115,9 @@ translate args = (executable', path' : hints' ++ requiredFlags, category', token
 
     path = lookup "path" argsMap
     path'
-      | Nothing <- path = "."
-      | Just "" <- path = "."
-      | Just s <- path = s
+      | Nothing <- path = ["."]
+      | Just "" <- path = ["."]
+      | Just s <- path = words s
 
     hints = lookup "hints" argsMap
     hints'
