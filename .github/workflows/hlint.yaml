@@ -3,6 +3,7 @@ permissions: read-all
 
 on:
   push:
+  pull_request:
   schedule:
     - cron: '5 4 14 * *'
 
