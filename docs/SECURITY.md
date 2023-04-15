@@ -7,9 +7,6 @@
 | 1.0.0   | :white_check_mark: |
 | < 1.0   | :x:                |
 
-Note that there is no version 1.0.0 yet.
-In other words, using this project now would be at your own risk.
-
 ## Reporting a Vulnerability
 
 To report a security issue, please [file] a security advisory on GitHub

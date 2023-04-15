@@ -10,6 +10,8 @@ the [Haskell Package Versioning Policy].
 
 ## Unreleased
 
+## 1.0.0 - 2023-04-15
+
 *   Uses much smaller Docker image size.
 *   Escape backslashes in messages.
 *   Support scanning multiple paths.

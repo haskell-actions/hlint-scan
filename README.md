@@ -21,7 +21,7 @@ jobs:
       security-events: write
     steps:
       - uses: actions/checkout@v3
-      - uses: haskell-actions/hlint-scan@v0
+      - uses: haskell-actions/hlint-scan@v1
 ```
 
 ### Inputs
