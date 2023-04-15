@@ -10,7 +10,7 @@ with any issues detected being reported.
 A minimal example for setting up code scanning with HLint:
 
 ```yaml
-on: [push]
+on: [push, pull_request]
 
 jobs:
   scan:
