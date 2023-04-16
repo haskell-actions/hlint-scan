@@ -59,6 +59,7 @@ The ID of the uploaded SARIF file.
 [![Ormolu](https://github.com/haskell-actions/hlint-scan/actions/workflows/ormolu.yaml/badge.svg)](https://github.com/haskell-actions/hlint-scan/actions/workflows/ormolu.yaml)
 [![OpenSSF
 Scorecard](https://api.securityscorecards.dev/projects/github.com/haskell-actions/hlint-scan/badge)](https://api.securityscorecards.dev/projects/github.com/haskell-actions/hlint-scan)
+[![OpenSSF Best Practices](https://bestpractices.coreinfrastructure.org/projects/7237/badge)](https://bestpractices.coreinfrastructure.org/projects/7237)
 
 ## Code of conduct
 
