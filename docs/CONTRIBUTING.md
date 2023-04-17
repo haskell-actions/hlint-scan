@@ -31,6 +31,11 @@ All submissions, including submissions by project members, require review. We
 use [GitHub pull requests](https://docs.github.com/articles/about-pull-requests)
 for this purpose.
 
+### Coding standards
+
+[Hlint](https://github.com/ndmitchell/hlint) should report no issues,
+and formatting should be according to [Ormolu](https://github.com/tweag/ormolu).
+
 ### Updating versions
 
 When updating the version, these files should be updated accordingly:
