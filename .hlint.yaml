@@ -1,0 +1,14 @@
+# HLint configuration file
+# https://github.com/ndmitchell/hlint
+##########################
+
+# Do not allow per-file extensions.
+- extensions:
+  - default: false
+
+# Do not allow unsafePerformIO.
+- functions:
+  - {name: unsafePerformIO, within: []}
+
+# Warn on use of partial functions
+- group: {name: partial, enabled: true}
