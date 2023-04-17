@@ -40,11 +40,12 @@ and formatting should be according to [Ormolu](https://github.com/tweag/ormolu).
 
 When updating the version, these files should be updated accordingly:
 
-*   [`CHANGELOG.md`](CHANGELOG.md)
-*   [`package.yaml`](../package.yaml)
-*   [`action.yaml`](../action.yaml)
+*   [`CHANGELOG.md`](CHANGELOG.md) with user-visible changes.
+*   [`package.yaml`](../package.yaml) with the new version.
+*   [`action.yaml`](../action.yaml) with the new version for the Docker image.
 
-Once that is done, a new [release] should be done with the new version number.
+Once that is done, a [release] should be done with the new version number.
 After the release actions are complete, the tag for the major version should be updated.
+Do *not* delete any `hlint-scan` packages, as it may render previous versions inaccessible.
 
 [release]: https://github.com/haskell-actions/hlint-scan/releases
