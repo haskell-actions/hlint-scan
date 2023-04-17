@@ -41,9 +41,9 @@ jobs:
           context: git
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
-            type=semver,pattern=v{{version}}
-            type=semver,pattern=v{{major}}.{{minor}}
-            type=semver,pattern=v{{major}}
+            type=semver,pattern=v{{version}},value=v1.0.0
+            type=semver,pattern=v{{major}}.{{minor}},value=v1.0.0
+            type=semver,pattern=v{{major}},value=v1.0.0
             type=ref,event=branch
             type=ref,event=pr
 
