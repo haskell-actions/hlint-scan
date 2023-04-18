@@ -10,11 +10,11 @@ with any issues detected being reported.
 A minimal example for setting up code scanning with HLint:
 
 ```yaml
+name: Scan code with HLint
 on: [push, pull_request]
 
 jobs:
-  scan:
-    name: Scan code with HLint
+  hlint:
     runs-on: ubuntu-latest
     permissions:
       # Needed to upload results to GitHub code scanning.
