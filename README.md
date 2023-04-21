@@ -24,6 +24,9 @@ jobs:
       - uses: haskell-actions/hlint-scan@v1
 ```
 
+The action needs [write permission for `security-events`] to upload
+the analysis results to GitHub.
+
 ### Inputs
 
 None of the inputs are required.
@@ -91,3 +94,5 @@ merchantability, or fitness for a particular purpose.
 [haskell/actions/hlint-setup]: https://github.com/haskell/actions/tree/main/hlint-setup
 
 [haskell/actions/hlint-run]: https://github.com/haskell/actions/tree/main/hlint-run
+
+[write permission for `security-events`]: https://docs.github.com/en/rest/code-scanning#upload-an-analysis-as-sarif-data
