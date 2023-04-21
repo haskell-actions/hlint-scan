@@ -32,6 +32,7 @@ category:            GitHub, Development
 
 description: |
   Scans code with HLint and uploads its analysis results to GitHub code scanning.
+  This is intended to be used as a standalone application on GitHub and not a library.
   See <https://github.com/haskell-actions/hlint-scan>.
 
 dependencies:
