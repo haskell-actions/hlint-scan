@@ -36,6 +36,12 @@ for this purpose.
 [Hlint](https://github.com/ndmitchell/hlint) should report no issues,
 and formatting should be according to [Ormolu](https://github.com/tweag/ormolu).
 
+Changes to code should include corresponding tests, which should ideally be property-based.
+This project uses [Hspec] and [QuickCheck] for testing.
+
+[Hspec]: https://hspec.github.io/
+[QuickCheck]: https://hackage.haskell.org/package/QuickCheck
+
 ### Updating versions
 
 When updating the version, these files should be updated accordingly:
