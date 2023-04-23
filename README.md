@@ -68,6 +68,10 @@ Scorecard](https://api.securityscorecards.dev/projects/github.com/haskell-action
 
 Be nice; see [`CODE_OF_CONDUCT.md`](docs/CODE_OF_CONDUCT.md) for details.
 
+## Security policy
+
+See [`SECURITY.md`](docs/SECURITY.md) for details.
+
 ## Contributing
 
 See [`CONTRIBUTING.md`](docs/CONTRIBUTING.md) for details.
