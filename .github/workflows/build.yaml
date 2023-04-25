@@ -4,6 +4,12 @@ permissions: read-all
 on:
   push:
 
+  workflow_call:
+    inputs:
+      coverage:
+        required: false
+        type: boolean
+
 jobs:
   build:
     concurrency: build
@@ -31,4 +37,19 @@ jobs:
           restore-keys: build-
 
       - name: Build and test
+        if: ${{ !inputs.coverage }}
         run: stack build --test
+
+      - name: Coverage
+        id: coverage
+        if: ${{ inputs.coverage }}
+        run: |
+          stack build --test --coverage
+          echo "report=$(stack path --local-hpc-root)" >> $GITHUB_OUTPUT
+
+      - name: Upload coverage report
+        if: ${{ inputs.coverage }}
+        uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3.1.2
+        with:
+          name: coverage-report
+          path: ${{ steps.coverage.outputs.report }}

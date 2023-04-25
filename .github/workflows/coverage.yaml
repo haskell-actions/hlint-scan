@@ -1,0 +1,14 @@
+name: Coverage
+permissions: read-all
+
+on:
+  schedule:
+    - cron: '33 7 25 * *'
+
+  workflow_dispatch:
+
+jobs:
+  coverage:
+    uses: ./.github/workflows/build.yaml
+    with:
+      coverage: true
