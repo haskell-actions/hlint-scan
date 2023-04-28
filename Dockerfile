@@ -11,8 +11,7 @@
 FROM haskell:9.4.4-buster@sha256:956023a248c1a61016e56d4b5d066ac2450f7c1289f6726dbb1a4b16f8e35d26 AS build
 RUN git clone https://github.com/haskell-actions/hlint-scan.git /src/hlint-scan
 WORKDIR /src/hlint-scan
-RUN stack install hlint hlint-scan:exe:hlint-scan && \
-    cp "$(stack path --local-bin)/hlint" "$(stack path --local-bin)/hlint-scan" /
+RUN stack install hlint hlint-scan:exe:hlint-scan && cp "$(stack path --local-bin)/hlint" "$(stack path --local-bin)/hlint-scan" /
 
 FROM debian:buster-slim@sha256:4d208d79338beaa197912496d0791921a31d9c58fa6fbd299787fab37cc893dd
 RUN apt-get --yes update && \
