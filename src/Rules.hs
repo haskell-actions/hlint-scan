@@ -70,7 +70,7 @@ add (Object v) = Object $ mapWithKey addRulesToRuns v
 
     addRulesToDriver "driver" o@(Object u)
       | member "rules" u = o
-      | otherwise = Object $ insert "rules" rulesArray u
+      | otherwise = Object $ (insert "rules" rulesArray u)
     addRulesToDriver _ u = u
 
     rules = Set.unions $ mapWithKey getRulesFromRuns v
