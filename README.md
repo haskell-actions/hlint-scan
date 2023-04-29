@@ -11,7 +11,7 @@ A minimal example for setting up code scanning with HLint:
 
 ```yaml
 name: Scan code with HLint
-on: [push, pull_request]
+on: [push]
 
 jobs:
   hlint:
