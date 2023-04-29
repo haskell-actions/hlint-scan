@@ -2,8 +2,6 @@
 
 This is a GitHub action which scans Haskell code using [HLint]
 and uploads its suggested improvements to [GitHub code scanning].
-It can serve as a status check for pull requests,
-with any issues detected being reported.
 
 ## Usage
 
