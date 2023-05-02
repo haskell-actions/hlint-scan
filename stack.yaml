@@ -19,7 +19,7 @@
 # Resolver to choose a 'specific' stackage snapshot or a compiler version.
 # Use a nightly build for now so that we can build an unreleased version
 # of HLint with SARIF support.
-resolver: nightly-2023-04-05
+resolver: nightly-2023-05-02
 
 # User packages to be built.
 packages:
