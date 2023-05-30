@@ -9,7 +9,7 @@ A minimal example for setting up code scanning with HLint:
 
 ```yaml
 name: Scan code with HLint
-on: [push]
+on: [push, pull_request]
 
 jobs:
   hlint:
