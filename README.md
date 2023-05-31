@@ -53,6 +53,18 @@ Path for [HLint configuration file].
 
 The ID of the uploaded SARIF file.
 
+## Examples
+
+When scanning code with HLint on pushes, issues will show up in
+the "Code scanning" dashboard in the "Security" section:
+
+![In code scanning dashboard](docs/security-scan.png)
+
+When scanning code with HLint in a pull request, issues with the change
+will be reported in the pull request:
+
+![In pull request](docs/pull-scan.png)
+
 ## Status
 
 [![Build](https://github.com/haskell-actions/hlint-scan/actions/workflows/build.yaml/badge.svg)](https://github.com/haskell-actions/hlint-scan/actions/workflows/build.yaml)
