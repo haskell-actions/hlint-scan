@@ -8,7 +8,7 @@
 # Alternatively, we could have the action retrieve an hlint release
 # automatically if one is not already available locally in the action.
 
-FROM haskell:9.4.5-buster@sha256:aa78291802a4424a4a4e876daf2735e36f542bc78b87ae3e1ea207120df2ff8d AS build
+FROM haskell:9.4.5-buster@sha256:ba389ced156cfcbaba03ed16e45eefb4631766d58d3b6d2316b597ce87efa93f AS build
 RUN git clone https://github.com/haskell-actions/hlint-scan.git /src/hlint-scan
 WORKDIR /src/hlint-scan
 RUN stack install hlint hlint-scan:exe:hlint-scan && \
