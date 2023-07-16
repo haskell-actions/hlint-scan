@@ -8,13 +8,13 @@
 # Alternatively, we could have the action retrieve an hlint release
 # automatically if one is not already available locally in the action.
 
-FROM haskell:9.4.5-buster@sha256:11759b1c413203fa32f01ee22140b1c637be79d1941c7d0ffa5dbf3f9a5bc7dd AS build
+FROM haskell:9.4.5-buster@sha256:94bf9cda1faf39732c341b82ecbf8e51f0b2fdf02168e0db5003ef214fc1ad4e AS build
 RUN git clone https://github.com/haskell-actions/hlint-scan.git /src/hlint-scan
 WORKDIR /src/hlint-scan
 RUN stack install hlint hlint-scan:exe:hlint-scan && \
     cp "$(stack path --local-bin)/hlint" "$(stack path --local-bin)/hlint-scan" /
 
-FROM debian:buster-slim@sha256:738002a6e94e8629a0f869be8ea56519887979d5ed411486441981a8b16f2fc8
+FROM debian:buster-slim@sha256:cddb688e1263b9752275b064171ef6ac9c70ae21a77c774339aecfb53690b9a1
 RUN apt-get --yes update && \
     apt-get --yes --no-install-recommends install ca-certificates=20200601~deb10u2 && \
     apt-get --yes clean && \
