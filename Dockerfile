@@ -14,7 +14,7 @@ WORKDIR /src/hlint-scan
 RUN stack install hlint hlint-scan:exe:hlint-scan && \
     cp "$(stack path --local-bin)/hlint" "$(stack path --local-bin)/hlint-scan" /
 
-FROM debian:buster-slim@sha256:df5f318899cdba5fdb0255ed1e2f29c29de90e34230f48aa92718a014a190b69
+FROM debian:buster-slim@sha256:8e5da7fd9aef8c0b3f23bb8c3f391667b50929984b7daa666ea1c7730f3b73b9
 RUN apt-get --yes update && \
     apt-get --yes --no-install-recommends install ca-certificates=20200601~deb10u2 && \
     apt-get --yes clean && \
