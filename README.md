@@ -25,6 +25,14 @@ jobs:
 The action needs [write permission for `security-events`] to upload
 the analysis results to GitHub.
 
+If you would like to use this as a [status check] which would prevent pull requests
+from being merged until an issue is resolved, you can [adjust the alert severity]
+for which code scanning will trigger a failed check.
+
+[status check]: https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/collaborating-on-repositories-with-code-quality-features/about-status-checks
+
+[adjust the alert severity]: https://docs.github.com/en/code-security/code-scanning/creating-an-advanced-setup-for-code-scanning/customizing-your-advanced-setup-for-code-scanning#defining-the-alert-severities-that-give-a-check-failure-for-a-pull-request
+
 ### Inputs
 
 None of the inputs are required.
