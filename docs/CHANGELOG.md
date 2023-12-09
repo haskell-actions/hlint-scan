@@ -10,6 +10,10 @@ the [Haskell Package Versioning Policy].
 
 ## Unreleased
 
+## 1.1.0 - 2023-12-08
+
+*   Update to LTS Haskell Stack and released version of HLint.
+
 ## 1.0.0 - 2023-04-15
 
 *   Uses much smaller Docker image size.
