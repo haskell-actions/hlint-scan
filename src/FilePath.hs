@@ -36,7 +36,7 @@ import Data.Text qualified as Text
 -- in @artifactLocation@ objects will have the @./@ stripped.
 normalize :: Value -> Value
 normalize (Object v) = Object $ normalizeObject v
-normalize (Array vs) = Array $ fmap normalize vs
+normalize (Array vs) = Array (fmap normalize vs)
 normalize v = v
 
 -- | Strip @./@ prefixes from a @uri@ object in an @artifactLocation@ object.
