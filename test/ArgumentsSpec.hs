@@ -45,9 +45,9 @@ spec = do
         `shouldBe` Nothing
 
     prop "argument must have '=' character" $ \s ->
-      ('=' `notElem` s)
-        ==> validate [s]
-        `shouldSatisfy` isJust
+      ('=' `notElem` s) ==>
+        validate [s]
+          `shouldSatisfy` isJust
 
     prop "argument must not have duplicate keyword" $ \key v v' ->
       '=' `notElem` key ==> \keyValues ->
@@ -57,10 +57,10 @@ spec = do
               validate args `shouldSatisfy` isJust
 
     prop "argument must have explicitly allowed keyword" $ \key v ->
-      ('=' `notElem` key)
-        ==> (key `notElem` ["binary", "path", "hints", "category", "token"])
-        ==> validate [key <> "=" <> v]
-        `shouldSatisfy` isJust
+      ('=' `notElem` key) ==>
+        (key `notElem` ["binary", "path", "hints", "category", "token"]) ==>
+          validate [key <> "=" <> v]
+            `shouldSatisfy` isJust
 
     prop "path may not look like a flag" $ \pathSuffix paths' ->
       forAll (shuffle $ ("-" <> pathSuffix) : paths') $ \paths ->
