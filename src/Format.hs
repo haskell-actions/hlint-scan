@@ -46,7 +46,7 @@ import Data.Text qualified as Text
 
 -- | Format text messages in result objects to be better readable on GitHub.
 formatMessages :: Value -> Value
-formatMessages (Object v) = Object $ mapWithKey formatRuns v
+formatMessages (Object v) = Object (mapWithKey formatRuns v)
   where
     formatRuns "runs" (Array us) = Array $ fmap formatRun us
     formatRuns _ u = u
