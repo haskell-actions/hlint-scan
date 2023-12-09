@@ -49,7 +49,7 @@ add env category (Object v) = Object $ mapWithKey addToRuns v
     details = maybe "" (++ "/") category <> "hlint/" <> runId
     runId = fromMaybe "" (lookup "GITHUB_RUN_ID" env)
 
-    addToRuns "runs" (Array u) = Array $ fmap addToRun u
+    addToRuns "runs" (Array u) = Array $ fmap addToRun $ u
     addToRuns _ u = u
 
     addToRun (Object u) = Object $ addDetails u
