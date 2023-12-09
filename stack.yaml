@@ -19,17 +19,14 @@
 # Resolver to choose a 'specific' stackage snapshot or a compiler version.
 # Use a nightly build for now so that we can build an unreleased version
 # of HLint with SARIF support.
-resolver: nightly-2023-05-02
+resolver: lts-21.24
 
 # User packages to be built.
 packages:
 - .
 
 # Dependency packages to be pulled from upstream that are not in the resolver.
-extra-deps:
-  # For unreleased version with SARIF support.
-- git: https://github.com/ndmitchell/hlint.git
-  commit: 8a42c0fea7fa9b9a7e046b9de1f7ef90a03a1401
+# extra-deps: []
 
 # Override default flag values for local packages and extra-deps
 # flags: {}
