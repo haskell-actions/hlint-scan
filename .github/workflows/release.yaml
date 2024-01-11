@@ -51,4 +51,6 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          # Do not use cached Docker images so that cached images are not used
+          # in lieu of a build which reflects changes in the repository.
           no-cache: true
