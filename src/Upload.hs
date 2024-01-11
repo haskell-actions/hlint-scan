@@ -83,7 +83,7 @@ toSettings tok =
   GitHubSettings
     { token = AccessToken . fromString <$> tok,
       userAgent = "github.com/haskell-actions/hlint-scan",
-      apiVersion = "v3"
+      apiVersion = "2022-11-28"
     }
 
 -- | Converts the response from a GitHub REST API call to GitHub action outputs.
