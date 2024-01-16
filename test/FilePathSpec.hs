@@ -58,5 +58,5 @@ hasURI :: Value -> Bool
 hasURI (Object v)
   | KeyMap.member "uri" v = True
   | otherwise = foldr ((||) . hasURI) False v
-hasURI (Array vs) = or $ fmap hasURI vs
+hasURI (Array vs) = any hasURI vs
 hasURI _ = False
