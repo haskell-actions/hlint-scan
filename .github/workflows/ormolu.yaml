@@ -12,7 +12,7 @@ jobs:
     name: Ormolu
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+      - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633 # v4.1.2
       - uses: haskell-actions/run-ormolu@15b0083a0ef416915994fb511652b187f6026a40 # v15
         with:
           respect-cabal-files: false
