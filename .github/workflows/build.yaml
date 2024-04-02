@@ -18,7 +18,7 @@ jobs:
     steps:
       - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633 # v4.1.2
 
-      - uses: haskell-actions/setup@2492c1286a5abeb29df728c4916e761ebf58a9cd # v2.6.3
+      - uses: haskell-actions/setup@ca7ecf7b0c7a4300227b1ab05cda52bf019c174b # v2.7.0
         with:
           enable-stack: true
 
