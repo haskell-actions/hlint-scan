@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4.1.6
-      - uses: haskell-actions/run-ormolu@15b0083a0ef416915994fb511652b187f6026a40 # v15
+      - uses: haskell-actions/run-ormolu@71e9a598a0418f521508102528c6dd95915b62ef # v16
         with:
           respect-cabal-files: false
           extra-args: '-o -XGHC2021 -o -XOverloadedStrings'
