@@ -18,7 +18,7 @@ jobs:
       # Needed to upload results to GitHub code scanning.
       security-events: write
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: haskell-actions/hlint-scan@v1
 ```
 
