@@ -31,7 +31,7 @@ for which code scanning will trigger a failed check.
 
 [status check]: https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/collaborating-on-repositories-with-code-quality-features/about-status-checks
 
-[adjust the alert severity]: https://docs.github.com/en/code-security/code-scanning/creating-an-advanced-setup-for-code-scanning/customizing-your-advanced-setup-for-code-scanning#defining-the-alert-severities-that-give-a-check-failure-for-a-pull-request
+[adjust the alert severity]: https://docs.github.com/en/code-security/code-scanning/creating-an-advanced-setup-for-code-scanning/customizing-your-advanced-setup-for-code-scanning#defining-the-alert-severities-that-cause-a-check-failure-for-a-pull-request
 
 ### Inputs
 
@@ -105,16 +105,12 @@ and Google specifically disclaims all warranties as to its quality,
 merchantability, or fitness for a particular purpose.
 
 
-[Category]: https://docs.github.com/en/code-security/code-scanning/automatically-scanning-your-code-for-vulnerabilities-and-errors/customizing-code-scanning#configuring-a-category-for-the-analysis
+[Category]: https://docs.github.com/en/code-security/code-scanning/creating-an-advanced-setup-for-code-scanning/customizing-your-advanced-setup-for-code-scanning#configuring-a-category-for-the-analysis
 
-[GitHub code scanning]: https://docs.github.com/en/code-security/code-scanning/automatically-scanning-your-code-for-vulnerabilities-and-errors/about-code-scanning
+[GitHub code scanning]: https://docs.github.com/en/code-security/code-scanning/introduction-to-code-scanning/about-code-scanning
 
 [HLint]: https://github.com/ndmitchell/hlint
 
 [HLint configuration file]: https://github.com/ndmitchell/hlint#customizing-the-hints
 
-[haskell/actions/hlint-setup]: https://github.com/haskell/actions/tree/main/hlint-setup
-
-[haskell/actions/hlint-run]: https://github.com/haskell/actions/tree/main/hlint-run
-
-[write permission for `security-events`]: https://docs.github.com/en/rest/code-scanning#upload-an-analysis-as-sarif-data
+[write permission for `security-events`]: https://docs.github.com/en/rest/code-scanning/code-scanning?apiVersion=2022-11-28#upload-an-analysis-as-sarif-data

@@ -10,6 +10,11 @@ the [Haskell Package Versioning Policy].
 
 ## Unreleased
 
+## 1.2.0 - 2024-10-31
+
+*   Update to HLint v3.8.
+*   Update to LTS Haskell Stack `nightly-2024-10-21`.
+
 ## 1.1.0 - 2023-12-08
 
 *   Update to LTS Haskell Stack and released version of HLint.
