@@ -31,6 +31,7 @@ module Upload (toCall, toSettings, toOutputs) where
 import Codec.Compression.GZip
 import Data.Aeson
 import Data.Aeson.KeyMap qualified as KeyMap
+import Data.Base64.Types (extractBase64)
 import Data.ByteString.Lazy (ByteString)
 import Data.ByteString.Lazy.Base64
 import Data.String (fromString)
