@@ -75,7 +75,7 @@ toCall env sarifLog
     commitSha' = lookup "GITHUB_SHA" env
     ref' = lookup "GITHUB_REF" env
     workspace' = lookup "GITHUB_WORKSPACE" env
-    encodedSarif = encodeBase64 $ compress sarifLog
+    encodedSarif = extractBase64 . encodeBase64 $ compress sarifLog
 
 -- | Settings for calling the GitHub REST API.
 toSettings :: Maybe String -> GitHubSettings
