@@ -24,6 +24,7 @@ module UploadSpec (spec) where
 import Codec.Compression.GZip (compress)
 import Data.Aeson hiding ((.:))
 import Data.Aeson.KeyMap
+import Data.Base64.Types (extractBase64)
 import Data.ByteString.Lazy.Base64 (encodeBase64)
 import Data.String (fromString)
 import Data.Text (Text)
@@ -53,7 +54,7 @@ spec = do
               -- KeyValue is not instance of Eq
               show . endpointVals <$> call `shouldBe` Just (show ["repo" := repo]),
               extractSARIF . ghData <$> call
-                `shouldBe` Just (toStrict $ encodeBase64 $ compress output)
+                `shouldBe` Just (toStrict . extractBase64 . encodeBase64 . compress $ output)
             ]
 
   describe "toSettings" $ do

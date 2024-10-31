@@ -28,6 +28,7 @@ module Fingerprint (fill) where
 
 import Data.Aeson
 import Data.Aeson.KeyMap hiding (map)
+import Data.Base64.Types (extractBase64)
 import Data.List (sort)
 import Data.Text (Text)
 import Data.Text qualified as Text
@@ -125,7 +126,7 @@ toPartialFingerprint v =
 
 -- | Encode a list of optional text strings with Base64.
 encodeTextList :: [Maybe Text] -> Text
-encodeTextList = encodeBase64 . Text.concat . map encodeItem
+encodeTextList = extractBase64 . encodeBase64 . Text.concat . map encodeItem
   where
     encodeItem Nothing = ":"
     encodeItem (Just s) = s <> ":"

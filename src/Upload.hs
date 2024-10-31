@@ -31,6 +31,7 @@ module Upload (toCall, toSettings, toOutputs) where
 import Codec.Compression.GZip
 import Data.Aeson
 import Data.Aeson.KeyMap qualified as KeyMap
+import Data.Base64.Types (extractBase64)
 import Data.ByteString.Lazy (ByteString)
 import Data.ByteString.Lazy.Base64
 import Data.String (fromString)
@@ -75,7 +76,7 @@ toCall env sarifLog
     commitSha' = lookup "GITHUB_SHA" env
     ref' = lookup "GITHUB_REF" env
     workspace' = lookup "GITHUB_WORKSPACE" env
-    encodedSarif = encodeBase64 $ compress sarifLog
+    encodedSarif = extractBase64 . encodeBase64 $ compress sarifLog
 
 -- | Settings for calling the GitHub REST API.
 toSettings :: Maybe String -> GitHubSettings
