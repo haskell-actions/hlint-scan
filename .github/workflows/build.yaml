@@ -16,12 +16,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-
-      - uses: haskell-actions/setup@dd344bc1cec854a369df8814ce17ef337d6e6170 # v2.7.6
-        with:
-          enable-stack: true
-
       - name: Cache dependencies
         uses: actions/cache@6849a6489940f00c2f30c0fb92c6274307ccb58a # v4.1.2
         with:
@@ -35,6 +29,12 @@ jobs:
           path: .stack-work
           key: build-${{ hashFiles('app/**', 'src/**', 'test/**') }}
           restore-keys: build-
+
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - uses: haskell-actions/setup@dd344bc1cec854a369df8814ce17ef337d6e6170 # v2.7.6
+        with:
+          enable-stack: true
 
       - name: Build and test
         if: ${{ !inputs.coverage }}
