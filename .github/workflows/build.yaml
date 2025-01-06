@@ -32,7 +32,7 @@ jobs:
           key: build-${{ hashFiles('app/**', 'src/**', 'test/**') }}
           restore-keys: build-
 
-      - uses: haskell-actions/setup@e447c4c045e7744463435b4b731e125861006ebb # v2.7.7
+      - uses: haskell-actions/setup@f5975f0810e252c045abd64a590c955a63f848db # v2.7.8
         with:
           enable-stack: true
 
