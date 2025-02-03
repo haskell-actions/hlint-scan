@@ -37,9 +37,9 @@ import AutomationDetails qualified
 import Control.Monad (when)
 import Data.Aeson (Value, decode, encode)
 import Data.ByteString.Lazy as ByteString
-import Data.Text.IO qualified as TIO
 import Data.Maybe (isJust)
 import Data.String
+import Data.Text.IO qualified as TIO
 import FilePath qualified
 import Fingerprint qualified
 import Format (formatMessages)
