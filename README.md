@@ -55,6 +55,14 @@ Path for [HLint configuration file].
 
 [Category] distinguishing multiple analyses at the same commit.
 
+#### `fail-on`
+
+If not empty, then this disables code scanning and instead outputs annotations.
+The value can be one of 'never', 'error', 'warning', or 'note',
+which are based on the [levels specified by SARIF],
+and it controls at what level a non-zero exit can happen.
+This is only intended for use in private GitHub repositories which do not have code scanning available.
+
 ### Outputs
 
 #### `sarif-id`
@@ -114,3 +122,5 @@ merchantability, or fitness for a particular purpose.
 [HLint configuration file]: https://github.com/ndmitchell/hlint#customizing-the-hints
 
 [write permission for `security-events`]: https://docs.github.com/en/rest/code-scanning/code-scanning?apiVersion=2022-11-28#upload-an-analysis-as-sarif-data
+
+[levels specified by SARIF]: https://github.com/microsoft/sarif-tutorials/blob/main/docs/2-Basics.md#level

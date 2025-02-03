@@ -33,6 +33,12 @@ inputs:
     description: Access token to fetch the repository and write the code scanning results from HLint to GitHub code scanning.
     required: false
     default: ${{ github.token }}
+  fail-on:
+    description: |
+      If not empty, then this disables code scanning and instead outputs annotations.
+      The value can be one of 'never', 'error', 'warning', or 'note', which denotes at what level a non-zero exit can happen.
+      This is only intended for use in private GitHub repositories which do not have code scanning available.
+    required: false
 
 outputs:
   sarif-id:
@@ -47,6 +53,7 @@ runs:
     - path=${{ inputs.path }}
     - category=${{ inputs.category }}
     - token=${{ inputs.token }}
+    - fail-on=${{ inputs.fail-on }}
 
 branding:
   icon: 'crosshair'

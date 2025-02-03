@@ -36,7 +36,8 @@ import Arguments qualified
 import AutomationDetails qualified
 import Control.Monad (when)
 import Data.Aeson (Value, decode, encode)
-import Data.ByteString.Lazy
+import Data.ByteString.Lazy as ByteString
+import Data.Text.IO qualified as TIO
 import Data.Maybe (isJust)
 import Data.String
 import FilePath qualified
@@ -44,6 +45,7 @@ import Fingerprint qualified
 import Format (formatMessages)
 import GitHub.REST
 import Rules qualified
+import SpecialOutput qualified
 import System.Environment (getEnvironment)
 import System.Exit (ExitCode (ExitSuccess), die, exitWith)
 import System.Process (proc, readCreateProcessWithExitCode)
@@ -80,7 +82,7 @@ main args = case Arguments.validate args of
 
 invoke :: [String] -> IO ()
 invoke args = do
-  let (executable, flags, category, token) = Arguments.translate args
+  let (executable, flags, category, token, failOn) = Arguments.translate args
   (exitCode, out, err) <-
     readCreateProcessWithExitCode (proc executable flags) ""
 
@@ -97,8 +99,16 @@ invoke args = do
     putStrLn out
     putStrLn ""
 
+  let out' = fromString out
+
   case exitCode of
-    ExitSuccess -> annotate context $ fromString out
+    ExitSuccess ->
+      case failOn of
+        Nothing -> annotate context out'
+        Just failOn' -> do
+          let (specialOutput, exitCode') = SpecialOutput.output failOn' out'
+          TIO.putStr specialOutput
+          exitWith exitCode'
     _ -> putStrLn err >> exitWith exitCode
 
 annotate :: Context -> ByteString -> IO ()

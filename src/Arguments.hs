@@ -35,6 +35,7 @@ module Arguments (validate, translate) where
 
 import Data.List (group, sort)
 import Data.Maybe (mapMaybe)
+import SpecialOutput qualified
 
 -- | Validate the program arguments.
 --
@@ -54,7 +55,14 @@ validate args
   | [] <- errors = Nothing
   | otherwise = Just $ unlines errors
   where
-    errors = notPairErrors ++ duplicateErrors ++ notAllowedErrors ++ badPathErrors
+    errors =
+      concat
+        [ notPairErrors,
+          duplicateErrors,
+          notAllowedErrors,
+          badValueErrors,
+          badPathErrors
+        ]
 
     -- Find arguments not in the form @keyword=value@.
     notPairErrors = mapMaybe forString args
@@ -73,6 +81,16 @@ validate args
       | key `elem` allowedArgs = Nothing
       | otherwise = Just $ "\"" <> key <> "\" argument is not allowed"
 
+    -- Look for values that are not allowed.
+    badValueErrors = mapMaybe (badValue . toTuple) args
+    badValue ("fail-on", val)
+      | val `notElem` allowedValues =
+          Just $ "value \"" <> val <> "\" not allowed for \"fail-on\" argument"
+      | otherwise = Nothing
+      where
+        allowedValues = ["", "never", "error", "warning", "note"]
+    badValue _ = Nothing
+
     -- Forbid paths which start with a '-' character,
     -- which could be confused as a flag.
     badPathErrors
@@ -86,7 +104,7 @@ validate args
 -- | List of argument keywords which are allowed.
 -- In other words, these are arguments we know what to do with.
 allowedArgs :: [String]
-allowedArgs = ["binary", "path", "hints", "category", "token"]
+allowedArgs = ["binary", "path", "hints", "category", "token", "fail-on"]
 
 -- | Translate program arguments to arguments for HLint.
 -- Also derives the category and access token from the arguments.
@@ -102,8 +120,9 @@ translate ::
   -- * Command-line arguments for HLint.
   -- * Category to upload with.
   -- * GitHub access token.
-  (FilePath, [String], Maybe String, Maybe String)
-translate args = (executable', path' ++ hints' ++ requiredFlags, category', token')
+  (FilePath, [String], Maybe String, Maybe String, Maybe SpecialOutput.FailOn)
+translate args =
+  (executable', path' ++ hints' ++ requiredFlags, category', token', failOn')
   where
     argsMap = map toTuple args
 
@@ -134,6 +153,14 @@ translate args = (executable', path' ++ hints' ++ requiredFlags, category', toke
     token'
       | Just "" <- token = Nothing
       | otherwise = token
+
+    failOn = lookup "fail-on" argsMap
+    failOn'
+      | Just "never" <- failOn = Just SpecialOutput.Never
+      | Just "error" <- failOn = Just SpecialOutput.Error
+      | Just "warning" <- failOn = Just SpecialOutput.Warning
+      | Just "note" <- failOn = Just SpecialOutput.Note
+      | otherwise = Nothing
 
     requiredFlags = ["-j", "--sarif", "--no-exit-code"]
 
