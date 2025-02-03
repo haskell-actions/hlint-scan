@@ -36,10 +36,10 @@ import Arguments qualified
 import AutomationDetails qualified
 import Control.Monad (when)
 import Data.Aeson (Value, decode, encode)
-import Data.ByteString.Lazy as ByteString
+import Data.ByteString.Lazy
 import Data.Maybe (isJust)
 import Data.String
-import Data.Text.IO qualified as TIO
+import Data.Text.IO qualified as TextIO
 import FilePath qualified
 import Fingerprint qualified
 import Format (formatMessages)
@@ -107,7 +107,7 @@ invoke args = do
         Nothing -> annotate context out'
         Just failOn' -> do
           let (specialOutput, exitCode') = SpecialOutput.output failOn' out'
-          TIO.putStr specialOutput
+          TextIO.putStr specialOutput
           exitWith exitCode'
     _ -> putStrLn err >> exitWith exitCode
 
