@@ -61,6 +61,8 @@ If not empty, then this disables code scanning and instead outputs annotations.
 The value can be one of 'never', 'error', 'warning', or 'note',
 which are based on the [levels specified by SARIF],
 and it controls at what level a non-zero exit can happen.
+Note that for pull requests, the non-zero exit can happen even if the issue
+is in part of the code not changed by the pull request.
 This is only intended for use in private GitHub repositories which do not have code scanning available.
 
 ### Outputs
