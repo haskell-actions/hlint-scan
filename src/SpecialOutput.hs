@@ -140,7 +140,7 @@ toAnnotation v = do
     ruleId _ = Nothing
 
 -- | Returns the annotations for the location in a result object.
--- If there are any location annotations, the return value will end with @", "@,
+-- If there are any location annotations, the return value will end with @","@,
 -- otherwise the return value will be empty.
 locationAnnotation :: Object -> Text
 locationAnnotation v =
@@ -153,23 +153,23 @@ locationAnnotation v =
     ]
   where
     fileAnnotation
-      | (Just s) <- filename = "file=" <> escapeSpecial s <> ", "
+      | (Just s) <- filename = "file=" <> escapeSpecial s <> ","
       | otherwise = ""
 
     colAnnotation
-      | (Just n) <- col = "col=" <> pack (show n) <> ", "
+      | (Just n) <- col = "col=" <> pack (show n) <> ","
       | otherwise = ""
 
     endColumnAnnotation
-      | (Just n) <- endColumn = "endColumn=" <> pack (show n) <> ", "
+      | (Just n) <- endColumn = "endColumn=" <> pack (show n) <> ","
       | otherwise = ""
 
     lineAnnotation
-      | (Just n) <- line = "line=" <> pack (show n) <> ", "
+      | (Just n) <- line = "line=" <> pack (show n) <> ","
       | otherwise = ""
 
     endLineAnnotation
-      | (Just n) <- endLine = "endLine=" <> pack (show n) <> ", "
+      | (Just n) <- endLine = "endLine=" <> pack (show n) <> ","
       | otherwise = ""
 
     locations
@@ -193,19 +193,19 @@ locationAnnotation v =
       | otherwise = Nothing
 
     col
-      | Just (Number n) <- lookup "startColumn" =<< region = Just n
+      | Just (Number n) <- lookup "startColumn" =<< region = Just (round n :: Int)
       | otherwise = Nothing
 
     endColumn
-      | Just (Number n) <- lookup "endColumn" =<< region = Just n
+      | Just (Number n) <- lookup "endColumn" =<< region = Just (round n :: Int)
       | otherwise = Nothing
 
     line
-      | Just (Number n) <- lookup "startLine" =<< region = Just n
+      | Just (Number n) <- lookup "startLine" =<< region = Just (round n :: Int)
       | otherwise = Nothing
 
     endLine
-      | Just (Number n) <- lookup "endLine" =<< region = Just n
+      | Just (Number n) <- lookup "endLine" =<< region = Just (round n :: Int)
       | otherwise = Nothing
 
 -- | Replace newlines in output so that they can be treated as newlines
