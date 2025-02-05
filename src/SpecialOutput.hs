@@ -113,10 +113,10 @@ toAnnotation v = do
   title' <- title
   let annotation =
         mconcat
-          [ "::" <> level' <> " ",
+          [ "::" <> escapeSpecial level' <> " ",
             location,
-            "title=" <> title' <> "::",
-            message'
+            "title=" <> escapeSpecial title' <> "::",
+            escapeNewlines message'
           ]
   return $ escapeNewlines annotation <> "\n"
   where
@@ -153,7 +153,7 @@ locationAnnotation v =
     ]
   where
     fileAnnotation
-      | (Just s) <- filename = "file=" <> s <> ", "
+      | (Just s) <- filename = "file=" <> escapeSpecial s <> ", "
       | otherwise = ""
 
     colAnnotation
@@ -214,3 +214,7 @@ locationAnnotation v =
 -- See https://github.com/actions/toolkit/issues/193.
 escapeNewlines :: Text -> Text
 escapeNewlines = replace "\n" "%0A"
+
+-- | Escape special characters which can interfere with the parsing of an annotation.
+escapeSpecial :: Text -> Text
+escapeSpecial = replace ":" "%3A" . replace "," "%2C" . escapeNewlines
