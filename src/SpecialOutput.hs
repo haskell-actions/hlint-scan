@@ -217,4 +217,4 @@ escapeNewlines = replace "\n" "%0A"
 
 -- | Escape special characters which can interfere with the parsing of an annotation.
 escapeSpecial :: Text -> Text
-escapeSpecial = replace ":" "%3A" . replace "," "%2C" . escapeNewlines
+escapeSpecial = replace ":" "%3A" . replace "," "%2C" . replace "=" "%3D" . escapeNewlines
