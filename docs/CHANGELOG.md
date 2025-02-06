@@ -10,6 +10,12 @@ the [Haskell Package Versioning Policy].
 
 ## Unreleased
 
+## 1.3.0 - 2025-02-06
+
+*   Add ability to disable code scanning and output annotations.
+
+    *   For use with private repositories without code scanning available.
+
 ## 1.2.0 - 2024-10-31
 
 *   Update to HLint v3.8.
