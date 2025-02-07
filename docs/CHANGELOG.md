@@ -10,6 +10,8 @@ the [Haskell Package Versioning Policy].
 
 ## Unreleased
 
+*   Update to `bullseye` Debian Docker image and GHC 9.8.4.
+
 ## 1.3.0 - 2025-02-06
 
 *   Add ability to disable code scanning and output annotations.
