@@ -83,32 +83,33 @@ will be reported in the pull request:
 
 ![In pull request](docs/pull-scan.png)
 
-## Status
+## Project information
+
+### Status
 
 [![Build](https://github.com/haskell-actions/hlint-scan/actions/workflows/build.yaml/badge.svg)](https://github.com/haskell-actions/hlint-scan/actions/workflows/build.yaml)
 [![HLint](https://github.com/haskell-actions/hlint-scan/actions/workflows/hlint.yaml/badge.svg)](https://github.com/haskell-actions/hlint-scan/actions/workflows/hlint.yaml)
 [![Ormolu](https://github.com/haskell-actions/hlint-scan/actions/workflows/ormolu.yaml/badge.svg)](https://github.com/haskell-actions/hlint-scan/actions/workflows/ormolu.yaml)
-[![OpenSSF
-Scorecard](https://api.securityscorecards.dev/projects/github.com/haskell-actions/hlint-scan/badge)](https://api.securityscorecards.dev/projects/github.com/haskell-actions/hlint-scan)
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/haskell-actions/hlint-scan/badge)](https://scorecard.dev/viewer/?uri=github.com/haskell-actions/hlint-scan)
 [![OpenSSF Best Practices](https://bestpractices.coreinfrastructure.org/projects/7237/badge)](https://bestpractices.coreinfrastructure.org/projects/7237)
 
-## Code of conduct
+### Code of conduct
 
 Be nice; see [`CODE_OF_CONDUCT.md`](docs/CODE_OF_CONDUCT.md) for details.
 
-## Security policy
+### Security policy
 
 See [`SECURITY.md`](docs/SECURITY.md) for details.
 
-## Contributing
+### Contributing
 
 See [`CONTRIBUTING.md`](docs/CONTRIBUTING.md) for details.
 
-## License
+### License
 
 Apache 2.0; see [`LICENSE`](LICENSE) for details.
 
-## Disclaimer
+### Disclaimer
 
 This project is not an official Google project. It is not supported by Google,
 and Google specifically disclaims all warranties as to its quality,
