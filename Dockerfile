@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM haskell:9.8.4-bullseye AS build
+FROM haskell:9.10.2-bullseye AS build
 RUN git clone https://github.com/haskell-actions/hlint-scan.git /src/hlint-scan
 WORKDIR /src/hlint-scan
 RUN stack install hlint hlint-scan:exe:hlint-scan && \
