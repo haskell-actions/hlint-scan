@@ -17,5 +17,5 @@ jobs:
       # Needed to upload the results.
       security-events: write
     steps:
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
       - uses: haskell-actions/hlint-scan@abd8bbb55afd1ec2c86bc28e081c1ca49037dd9c # v1.3.0
