@@ -38,10 +38,6 @@ for which code scanning will trigger a failed check.
 None of the inputs are required.
 You only need to set them if the defaults do not work for your situation.
 
-#### `binary`
-
-Path to the hlint binary.
-
 #### `path`
 
 Path of file or directory that HLint will be told to scan.
