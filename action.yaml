@@ -16,9 +16,6 @@ name: Scan code with HLint
 description: Scan Haskell code for possible improvements using HLint.
 
 inputs:
-  binary:
-    description: Path to the hlint binary.
-    required: false
   path:
     description: Path of file or directory that HLint will be told to scan.
     required: false
@@ -47,9 +44,8 @@ outputs:
 
 runs:
   using: docker
-  image: docker://ghcr.io/haskell-actions/hlint-scan:v1.3.0
+  image: docker://ghcr.io/haskell-actions/hlint-scan:v1.4.0
   args:
-    - binary=${{ inputs.binary }}
     - path=${{ inputs.path }}
     - category=${{ inputs.category }}
     - token=${{ inputs.token }}

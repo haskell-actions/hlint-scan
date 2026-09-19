@@ -10,7 +10,11 @@ the [Haskell Package Versioning Policy].
 
 ## Unreleased
 
-*   Update to `bullseye` Debian Docker image and GHC 9.8.4.
+## 1.4.0 - 2026-09-19
+
+*   Update to HLint 3.10.
+*   Update to `bullseye` Debian Docker image and GHC 9.10.3.
+*   Removed reference to `binary` input.
 
 ## 1.3.0 - 2025-02-06
 
